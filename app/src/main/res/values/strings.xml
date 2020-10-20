@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Easy Weathy</string>
+    <string name="title_home">Current</string>
+    <string name="title_dashboard">Forecast</string>
+    <string name="title_notifications">Favorites</string>
+    <string name="textview">TextView</string>
+</resources>
