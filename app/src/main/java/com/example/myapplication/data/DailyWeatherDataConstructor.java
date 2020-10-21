@@ -9,19 +9,17 @@ import java.util.ArrayList;
 
 public class DailyWeatherDataConstructor {
 
-    public ArrayList<WeatherListTag> weatherListTagArrayList = new ArrayList<WeatherListTag>();
+    public ArrayList<WeatherListTag> weatherListTagArrayList = new ArrayList<>();
 
     public ArrayList<WeatherListTag> getWeatherListTagArrayList() {
         return weatherListTagArrayList;
     }
 
-
-
     public DailyWeatherDataConstructor() {
     }
 
     public void fillListData(Main dailyWeather) {
-        weatherListTagArrayList.clear();
+        this.weatherListTagArrayList.clear();
         for (int i = 1; i < dailyWeather.getDaily().size(); i++) {
             this.weatherListTagArrayList.add(new WeatherListTag(DateFormat.formatToGMT(dailyWeather.getDaily().get(i).getDt()), Math.round(DegreesFormat.formatToCelsius(dailyWeather.getDaily().get(i).getTemp().getDay())) + " C°", dailyWeather.getDaily().get(i).getWeather().get(0).getMain()));
         }

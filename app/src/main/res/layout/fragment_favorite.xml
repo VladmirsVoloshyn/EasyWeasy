@@ -1,98 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/weatherscreen2" >
 
     <Button
         android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="66dp"
+        android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="95dp"
-        android:layout_marginLeft="95dp"
-        android:layout_marginEnd="228dp"
-        android:layout_marginRight="228dp"
-        android:layout_marginBottom="128dp"
-        android:text="Add" />
+        android:layout_marginStart="171dp"
+        android:layout_marginLeft="171dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="174dp"
+        android:layout_marginBottom="25dp"
+        android:background="@android:drawable/ic_menu_add" />
 
     <ListView
         android:id="@+id/cityAddView"
         android:layout_width="match_parent"
-        android:layout_height="322dp"
+        android:layout_height="439dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="113dp">
+        android:layout_marginTop="83dp">
 
     </ListView>
 
     <TextView
         android:id="@+id/currentDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="29dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="177dp"
-        android:layout_marginLeft="177dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="176dp"
-        android:layout_marginRight="176dp"
-        android:text="TextView" />
+        android:layout_marginStart="118dp"
+        android:layout_marginLeft="118dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="119dp"
+        android:textColor="#FFFFFF"
+        app:autoSizeTextType="uniform" />
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
+        android:layout_width="37dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="318dp"
-        android:layout_marginRight="318dp"
-        android:text="Button" />
+        android:layout_marginTop="1dp"
+        android:background="@drawable/btnback"
+        android:rotationX="1" />
 
     <EditText
         android:id="@+id/editTextCityName"
-        android:layout_width="wrap_content"
+        android:layout_width="410dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="194dp"
-        android:layout_marginRight="194dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:ems="10"
         android:hint="city_name"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
+        android:layout_width="46dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="209dp"
-        android:layout_marginLeft="209dp"
-        android:layout_marginEnd="114dp"
-        android:layout_marginRight="114dp"
-        android:layout_marginBottom="125dp"
-        android:text="delete" />
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="19dp"
+        android:background="@android:drawable/ic_menu_delete" />
 
 </RelativeLayout>

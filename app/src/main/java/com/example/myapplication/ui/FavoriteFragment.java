@@ -42,7 +42,6 @@ public class FavoriteFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView =
                 inflater.inflate(R.layout.fragment_favorite, null);
-        final Fragment fragment = null;
         mCurrentDate = rootView.findViewById(R.id.currentDateTextView);
         mCityListView = rootView.findViewById(R.id.cityAddView);
         backButton = rootView.findViewById(R.id.btnBack);
@@ -50,17 +49,9 @@ public class FavoriteFragment extends Fragment {
         mCityTextEdit = rootView.findViewById(R.id.editTextCityName);
         mCurrentDate.setText("Favorite List");
 
-        citiesBaseManager = new CitiesBaseManager(getContext());
-        cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
-        mCityListView.setAdapter(cityAdapter);
         addButton = rootView.findViewById(R.id.btnAdd);
 
-        mCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                chosenPosition = position;
-            }
-        });
+        updateHud();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,15 +59,15 @@ public class FavoriteFragment extends Fragment {
 
             }
         });
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cityName = mCityTextEdit.getText().toString();
                 dataController = new DataController(cityName, new WeatherDataCallback() {
                     @Override
-                    public void onDataGet(CurrentWeatherDataConstructor dataFromActivity) {
-                        citiesBaseManager.addElement(dataFromActivity.getCityName(), dataFromActivity.getMainDescription(), dataFromActivity.getCurrentTemp());
+                    public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
+                        citiesBaseManager.addElement(currentWeatherData.getCityName(), currentWeatherData.getMainDescription(), currentWeatherData.getCurrentTemp());
+                        updateHud();
                     }
 
                     @Override
@@ -84,22 +75,29 @@ public class FavoriteFragment extends Fragment {
 
                     }
                 });
-                cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
-                mCityListView.setAdapter(cityAdapter);
+
             }
         });
-
         deleteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 citiesBaseManager.deleteElement(chosenPosition);
-                citiesBaseManager = new CitiesBaseManager(getContext());
-                cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
-                mCityListView.setAdapter(cityAdapter);
+                updateHud();
+            }
+        });
+        mCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                chosenPosition = position;
             }
         });
         return rootView;
     }
 
+    void updateHud() {
+        citiesBaseManager = new CitiesBaseManager(getContext());
+        cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
+        mCityListView.setAdapter(cityAdapter);
+    }
 }

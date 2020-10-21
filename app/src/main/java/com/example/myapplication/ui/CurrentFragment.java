@@ -78,9 +78,9 @@ public class CurrentFragment extends Fragment implements LocationCallback {
 
         dataController = new DataController(new WeatherDataCallback() {
             @Override
-            public void onDataGet(CurrentWeatherDataConstructor weatherDataConstructor) {
+            public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
                 if (locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, "") != "" & locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, "") != "") {
-                    setData(weatherDataConstructor);
+                    setData(currentWeatherData);
                     showHud();
                     progressBar.setVisibility(ProgressBar.INVISIBLE);
                     mLoadingView.setVisibility(TextView.INVISIBLE);

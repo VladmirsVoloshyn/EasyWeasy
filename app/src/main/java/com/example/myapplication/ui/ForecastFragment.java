@@ -56,8 +56,8 @@ public class ForecastFragment extends Fragment implements LocationCallback {
         });
         dataController = new DataController(new WeatherDataCallback() {
             @Override
-            public void onDataGet(CurrentWeatherDataConstructor dataFromActivity) {
-                mCityName.setText(dataFromActivity.getCityName());
+            public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
+                mCityName.setText(currentWeatherData.getCityName());
             }
 
             @Override
