@@ -53,6 +53,8 @@ public class FavoriteFragment extends Fragment {
 
         updateHud();
 
+        //deleteButton.setVisibility(Button.INVISIBLE);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
