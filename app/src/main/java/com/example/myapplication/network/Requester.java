@@ -21,18 +21,6 @@ public class Requester {
         this.requestWeatherByCityName();
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-    public void setGeolocation(double latitude, double longitude){
-        this.setLatitude(latitude);
-        this.setLongitude(longitude);
-    }
-
     public Requester(double latitude, double longitude, RequesterCallback callback) {
 
         this.latitude = latitude;
@@ -47,7 +35,7 @@ public class Requester {
     public void requestWeatherByCityName() {
         NetworkService.getInstance()
                 .getJSONApi()
-                .getWeatherForCityName(this.CityName, NetworkService.BASE_APPID)
+                .getWeatherForCityName(this.CityName, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
                     public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
@@ -66,7 +54,7 @@ public class Requester {
     public void requestWeatherByLocation() {
         NetworkService.getInstance()
                 .getJSONApi()
-                .getWeatherForLocation(this.latitude, this.longitude, NetworkService.BASE_APPID)
+                .getWeatherForLocation(this.latitude, this.longitude, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
                     public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
@@ -84,7 +72,7 @@ public class Requester {
     public void requestWeatherBySevenDays(){
         NetworkService.getInstance()
                 .getJSONApi()
-                .getWeatherBySevenDays(this.latitude, this.longitude, NetworkService.EXCLUDING_PARAMETERS, NetworkService.BASE_APPID)
+                .getWeatherBySevenDays(this.latitude, this.longitude, NetworkService.EXCLUDING_PARAMETERS, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<Main>() {
                     @Override
                     public void onResponse(Call<Main> call, Response<Main> response) {

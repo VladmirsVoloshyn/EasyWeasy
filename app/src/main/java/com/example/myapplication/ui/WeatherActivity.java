@@ -1,6 +1,7 @@
 package com.example.myapplication.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,14 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.settings.ActivitySettings;
 
 import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-
-    ArrayList<String> optionMenu = new ArrayList<>();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +26,6 @@ public class WeatherActivity extends AppCompatActivity implements BottomNavigati
         view.setOnNavigationItemSelectedListener(this);
         CurrentFragment homeFragment  = new CurrentFragment();
         loadFragment(homeFragment);
-        optionMenu.add("Settings");
-        optionMenu.add("About");
     }
 
     private boolean loadFragment(Fragment fragment) {
@@ -65,8 +64,19 @@ public class WeatherActivity extends AppCompatActivity implements BottomNavigati
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                Intent intent = new Intent(WeatherActivity.this, ActivitySettings.class);
+                startActivity(intent);
+                break;
+            case R.id.action_About:
+                Intent intent2 = new Intent(WeatherActivity.this, ActivityAbout.class);
+                startActivity(intent2);
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

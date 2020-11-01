@@ -1,5 +1,7 @@
 package com.example.myapplication.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,12 +24,14 @@ import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 import com.example.myapplication.ui.customize.WeatherAdapter;
 
+import java.util.Objects;
+
 public class ForecastFragment extends Fragment implements LocationCallback {
     private TextView mCityName;
     private DataController dataController;
     private ListView mWeatherListView;
-    private WeatherAdapter weatherAdapter;
     private Button backButton;
+    private Context forecastContext;
 
     @Nullable
     @Override
@@ -45,7 +49,8 @@ public class ForecastFragment extends Fragment implements LocationCallback {
                 backButton.setVisibility(Button.INVISIBLE);
             }
         });
-        WeatherLocationListener.getInstance().setUpLocationListener(getContext(), this);
+        forecastContext = getContext();
+        WeatherLocationListener.getInstance().setUpLocationListener(forecastContext, this);
         WeatherLocationListener.getInstance().requestLocation();
         mWeatherListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,20 +71,16 @@ public class ForecastFragment extends Fragment implements LocationCallback {
             }
         });
         return rootView;
-
     }
 
     public void setData(final DailyWeatherDataConstructor dailyWeatherDataConstructor) {
-        weatherAdapter = new WeatherAdapter(getContext(), dailyWeatherDataConstructor.getWeatherListTagArrayList());
+        WeatherAdapter weatherAdapter = new WeatherAdapter(forecastContext, dailyWeatherDataConstructor.getWeatherListTagArrayList());
         mWeatherListView.setAdapter(weatherAdapter);
 
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
         dataController.updateData();
     }
-
-
 }

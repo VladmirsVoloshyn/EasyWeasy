@@ -29,22 +29,28 @@ public class DataController{
     }
 
     public void updateData() {
-        requester = new Requester(WeatherLocationListener.getInstance().getLatitude(), WeatherLocationListener.getInstance().getLongitude(), new RequesterCallback() {
+        Thread t = new Thread(new Runnable() {
             @Override
-            public void onResponse(WeatherData weatherData) {
-                DataController.this.dataConstructor.build(weatherData);
-                dataCallback.onDataGet(dataConstructor);
-            }
+            public void run() {
+                requester = new Requester(WeatherLocationListener.getInstance().getLatitude(), WeatherLocationListener.getInstance().getLongitude(), new RequesterCallback() {
+                    @Override
+                    public void onResponse(WeatherData weatherData) {
+                        DataController.this.dataConstructor.build(weatherData);
+                        dataCallback.onDataGet(dataConstructor);
+                    }
 
-            @Override
-            public void onResponseBySevenDays(Main dailyWeather) {
-                DataController.this.dailyWeatherDataConstructor.build(dailyWeather);
-                dataCallback.onDataGet(dailyWeatherDataConstructor);
-            }
-            @Override
-            public void onFailure() {
+                    @Override
+                    public void onResponseBySevenDays(Main dailyWeather) {
+                        DataController.this.dailyWeatherDataConstructor.build(dailyWeather);
+                        dataCallback.onDataGet(dailyWeatherDataConstructor);
+                    }
+                    @Override
+                    public void onFailure() {
+                    }
+                });
             }
         });
+       t.start();
     }
     public void updateDataByCityName(String cityName){
         requester = new Requester(cityName, new RequesterCallback() {

@@ -29,6 +29,8 @@ public class WeatherLocationListener implements LocationListener {
 
     }
 
+
+
     public static WeatherLocationListener getInstance() {
         if (mUniqueLocation == null) {
             mUniqueLocation = new WeatherLocationListener();

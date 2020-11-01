@@ -13,16 +13,15 @@ import com.example.myapplication.R;
 import java.util.ArrayList;
 
 public class WeatherAdapter extends BaseAdapter {
-    Context context;
-    LayoutInflater layoutInflater;
-    ArrayList<WeatherListTag> objects;
+    private final LayoutInflater layoutInflater;
+    private final ArrayList<WeatherListTag> objects;
 
-    public WeatherAdapter(Context context, ArrayList<WeatherListTag> objects){
-        this.context = context;
+    public WeatherAdapter(Context context, ArrayList<WeatherListTag> objects) {
         this.objects = objects;
-        layoutInflater = (LayoutInflater) this.context
+        this.layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
         return objects.size();
@@ -44,12 +43,11 @@ public class WeatherAdapter extends BaseAdapter {
         if (view == null) {
             view = layoutInflater.inflate(R.layout.layout, parent, false);
         }
-
         WeatherListTag listTag = getTag(position);
 
         ((TextView) view.findViewById(R.id.TextViewDate)).setText(listTag.getDate());
         ((TextView) view.findViewById(R.id.TextViewTemp)).setText(listTag.getTemp() + "");
-        switch (listTag.getDescriptionImage()){
+        switch (listTag.getDescriptionImage()) {
             case ("Clear"):
                 ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(R.drawable.clear);
                 break;
@@ -72,8 +70,10 @@ public class WeatherAdapter extends BaseAdapter {
                 ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(R.drawable.showerrain);
                 break;
         }
+
         return view;
     }
+
     WeatherListTag getTag(int position) {
         return ((WeatherListTag) getItem(position));
     }

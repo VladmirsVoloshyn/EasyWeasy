@@ -197,6 +197,9 @@ public class CurrentFragment extends Fragment implements LocationCallback {
                 imageView.setImageResource(R.drawable.showerrain);
                 mWeatherDescription.setText("Изморось");
                 break;
+            case ("Fog"):
+                imageView.setImageResource(R.drawable.mist);
+                mWeatherDescription.setText("Сильный туман");
         }
 
     }
