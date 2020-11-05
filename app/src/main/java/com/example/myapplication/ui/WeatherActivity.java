@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.about.ActivityAbout;
-import com.example.myapplication.ui.settings.ActivitySettings;
+import com.example.myapplication.ui.about.AboutActivity;
+import com.example.myapplication.ui.currentfragment.CurrentFragment;
+import com.example.myapplication.ui.favoriteragment.FavoriteFragment;
+import com.example.myapplication.ui.forecastfragment.ForecastFragment;
+import com.example.myapplication.ui.settings.SettingsActivity;
 
 public class WeatherActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     
@@ -67,11 +70,11 @@ public class WeatherActivity extends AppCompatActivity implements BottomNavigati
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
-                Intent intent = new Intent(WeatherActivity.this, ActivitySettings.class);
+                Intent intent = new Intent(WeatherActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_About:
-                Intent intent2 = new Intent(WeatherActivity.this, ActivityAbout.class);
+                Intent intent2 = new Intent(WeatherActivity.this, AboutActivity.class);
                 startActivity(intent2);
                 break;
         }

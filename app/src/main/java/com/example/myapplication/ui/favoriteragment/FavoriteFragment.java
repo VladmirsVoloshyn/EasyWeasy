@@ -1,4 +1,4 @@
-package com.example.myapplication.ui;
+package com.example.myapplication.ui.favoriteragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,12 +18,8 @@ import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
 import com.example.myapplication.data.DailyWeatherDataConstructor;
-import com.example.myapplication.favoritecitiesdatabase.CitiesBaseManager;
-import com.example.myapplication.favoritecitiesdatabase.CityBase;
-import com.example.myapplication.ui.customize.city.City;
+import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 import com.example.myapplication.ui.customize.city.CityAdapter;
-
-import java.util.ArrayList;
 
 
 public class FavoriteFragment extends Fragment {

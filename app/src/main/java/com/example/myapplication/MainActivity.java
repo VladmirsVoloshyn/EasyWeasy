@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nextAction();
+
     }
 
     @Override

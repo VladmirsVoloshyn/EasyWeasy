@@ -8,9 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.myapplication.R;
-import com.example.myapplication.favoritecitiesdatabase.CitiesBaseManager;
-
-import java.util.ArrayList;
+import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 
 public class CityAdapter extends BaseAdapter {
 

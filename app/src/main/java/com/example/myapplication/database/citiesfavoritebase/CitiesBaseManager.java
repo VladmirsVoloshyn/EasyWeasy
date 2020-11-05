@@ -1,4 +1,4 @@
-package com.example.myapplication.favoritecitiesdatabase;
+package com.example.myapplication.database.citiesfavoritebase;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,14 +1,11 @@
-package com.example.myapplication.ui;
+package com.example.myapplication.ui.currentfragment;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,11 +17,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.myapplication.data.DailyWeatherDataConstructor;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
 import com.example.myapplication.R;
-import com.example.myapplication.ctrl.DataController;
-import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 
@@ -32,18 +26,15 @@ import static com.google.gson.reflect.TypeToken.get;
 
 public class CurrentFragment extends Fragment implements LocationCallback {
 
-    private SharedPreferences locationPreferences;
-    final String SAVED_LATITUDE_PREFERENCES = "saved latitude";
-    final String SAVED_LONGITUDE_PREFERENCES = "saved longitude";
-    double prefLat, prefLon;
     private TextView mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
-    public ImageView imageView;
-    public ProgressBar progressBar;
+    private ImageView imageView;
+    private ProgressBar progressBar;
+    private CurrentViewModel viewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView =
+        @SuppressLint("InflateParams") View rootView =
                 inflater.inflate(R.layout.fragment_current, null);
         mCityName = rootView.findViewById(R.id.CityNameText);
         mCurrentDate = rootView.findViewById(R.id.CurrentDate);
@@ -57,77 +48,22 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         imageView = rootView.findViewById(R.id.weatherIconView);
         progressBar = rootView.findViewById(R.id.progressBar);
 
-        CurrentViewModel viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
-
-
         WeatherLocationListener.getInstance().setUpLocationListener(getContext(), this);
         WeatherLocationListener.getInstance().requestLocation();
-        setLocationPreferences();
 
+        viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
+
+        return rootView;
+    }
+    @Override
+    public void onLocationChanged(Location location) {
         viewModel.getData().observe(this, new Observer<CurrentWeatherDataConstructor>() {
             @Override
             public void onChanged(@Nullable CurrentWeatherDataConstructor currentWeatherDataConstructor) {
                 setData(currentWeatherDataConstructor);
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         });
-        return rootView;
-    }
-
-    void setLocationPreferences(){
-        locationPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        if (!(locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, "").equals("")) & !(locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, "")).equals("")) {
-            locationPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-            prefLon = Double.parseDouble(locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, ""));
-            prefLat = Double.parseDouble(locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, ""));
-
-            WeatherLocationListener.getInstance().setLongitude(prefLon);
-            WeatherLocationListener.getInstance().setLatitude(prefLat);
-        }
-    }
-
-//    public static boolean isOnline(Context context) {
-//        ConnectivityManager connectivityManager =
-//                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-//        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-//            return true;
-//        }
-//        return false;
-//    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        locationPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = locationPreferences.edit();
-        editor.putString(SAVED_LATITUDE_PREFERENCES, String.valueOf(WeatherLocationListener.getInstance().getLatitude()));
-        editor.putString(SAVED_LONGITUDE_PREFERENCES, String.valueOf(WeatherLocationListener.getInstance().getLongitude()));
-        editor.apply();
-    }
-
-    public void showHud() {
-        mCityName.setVisibility(TextView.VISIBLE);
-        mCurrentDate.setVisibility(TextView.VISIBLE);
-        mCurrentTemp.setVisibility(TextView.VISIBLE);
-        mWeatherDescription.setVisibility(TextView.VISIBLE);
-        mMaxAndMinTemp.setVisibility(TextView.VISIBLE);
-        mWindSpeed.setVisibility(TextView.VISIBLE);
-        mWindDestination.setVisibility(TextView.VISIBLE);
-        mPressure.setVisibility(TextView.VISIBLE);
-        mHumidity.setVisibility(TextView.VISIBLE);
-        imageView.setVisibility(ImageView.VISIBLE);
-    }
-
-    public void hideHud() {
-        mCityName.setVisibility(TextView.INVISIBLE);
-        mCurrentDate.setVisibility(TextView.INVISIBLE);
-        mCurrentTemp.setVisibility(TextView.INVISIBLE);
-        mWeatherDescription.setVisibility(TextView.INVISIBLE);
-        mMaxAndMinTemp.setVisibility(TextView.INVISIBLE);
-        mWindSpeed.setVisibility(TextView.INVISIBLE);
-        mWindDestination.setVisibility(TextView.INVISIBLE);
-        mPressure.setVisibility(TextView.INVISIBLE);
-        mHumidity.setVisibility(TextView.INVISIBLE);
-        imageView.setVisibility(ImageView.INVISIBLE);
     }
 
     @SuppressLint("SetTextI18n")
@@ -144,7 +80,6 @@ public class CurrentFragment extends Fragment implements LocationCallback {
     }
 
     public void setIcon(CurrentWeatherDataConstructor weatherDataConstructor) {
-
         switch (weatherDataConstructor.getMainDescription()) {
             case ("Clear"):
                 imageView.setImageResource(R.drawable.clear);
@@ -180,4 +115,13 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         }
 
     }
+//        public static boolean isOnline(Context context) {
+//        ConnectivityManager connectivityManager =
+//                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+//        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+//            return true;
+//        }
+//        return false;
+//    }
 }

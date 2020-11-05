@@ -1,4 +1,4 @@
-package com.example.myapplication.ui;
+package com.example.myapplication.ui.forecastfragment;
 
 import android.content.Context;
 import android.location.Location;

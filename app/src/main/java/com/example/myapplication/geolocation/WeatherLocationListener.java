@@ -10,17 +10,21 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
+
 import com.example.myapplication.MainActivity;
 
 
 public class WeatherLocationListener implements LocationListener {
+
     public static WeatherLocationListener mUniqueLocation;
     public static Location imHere = null;
     private LocationCallback callback;
-    public LocationManager locationManager;
-    public double longitude;
-    public double latitude;
-    public boolean isAccess = false;
+    private LocationManager locationManager;
+    private double longitude;
+    private double latitude;
+    private boolean isAccess = false;
+    private LocationPreferenceManager locationPreferenceManager;
+
 
     public boolean setPermissionCheck(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -56,6 +60,8 @@ public class WeatherLocationListener implements LocationListener {
 
     public void setUpLocationListener(MainActivity context, LocationCallback callback) {
         this.callback = callback;
+        this.locationPreferenceManager = new LocationPreferenceManager(context);
+        locationPreferenceManager.getSavedPreferences();
         locationManager = (LocationManager)
                 context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -70,7 +76,10 @@ public class WeatherLocationListener implements LocationListener {
 
     public void setUpLocationListener(Context context, LocationCallback callback) {
         this.callback = callback;
+        this.locationPreferenceManager = new LocationPreferenceManager(context);
+        locationPreferenceManager.getSavedPreferences();
         locationManager = (LocationManager)
+
                 context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
@@ -94,9 +103,10 @@ public class WeatherLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         imHere = location;
-        this.latitude = imHere.getLatitude();
-        this.longitude = imHere.getLongitude();
         callback.onLocationChanged(location);
+        locationPreferenceManager.clearPreference();
+        locationPreferenceManager.addPreference(String.valueOf(imHere.getLatitude()), String.valueOf(imHere.getLongitude()));
+        locationPreferenceManager.getSavedPreferences();
     }
 
     @Override
@@ -112,14 +122,5 @@ public class WeatherLocationListener implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
 
-    }
-
-
-    public String latitudeToString() {
-        return String.valueOf(this.getLatitude());
-    }
-
-    public String longitudeToString() {
-        return String.valueOf(this.getLongitude());
     }
 }
