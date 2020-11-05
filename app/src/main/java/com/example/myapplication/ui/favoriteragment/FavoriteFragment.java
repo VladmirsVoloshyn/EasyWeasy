@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.favoriteragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +24,9 @@ import com.example.myapplication.ui.customize.city.CityAdapter;
 
 
 public class FavoriteFragment extends Fragment {
-    private TextView mCurrentDate;
     private DataController dataController;
     private ListView mCityListView;
-    private CityAdapter cityAdapter;
-    private Button backButton, addButton, deleteButton;
+    private Button deleteButton;
     private EditText mCityTextEdit;
     private String cityName;
     private CitiesBaseManager citiesBaseManager;
@@ -36,16 +35,16 @@ public class FavoriteFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView =
+        @SuppressLint("InflateParams") final View rootView =
                 inflater.inflate(R.layout.fragment_favorite, null);
-        mCurrentDate = rootView.findViewById(R.id.currentDateTextView);
+        TextView mCurrentDate = rootView.findViewById(R.id.currentDateTextView);
         mCityListView = rootView.findViewById(R.id.cityAddView);
-        backButton = rootView.findViewById(R.id.btnBack);
+        Button backButton = rootView.findViewById(R.id.btnBack);
         deleteButton = rootView.findViewById(R.id.btnDelete);
         mCityTextEdit = rootView.findViewById(R.id.editTextCityName);
-        mCurrentDate.setText("Favorite List");
+        mCurrentDate.setText(R.string.favoriteListDesc);
 
-        addButton = rootView.findViewById(R.id.btnAdd);
+        Button addButton = rootView.findViewById(R.id.btnAdd);
 
         updateHud();
 
@@ -98,7 +97,7 @@ public class FavoriteFragment extends Fragment {
 
     void updateHud() {
         citiesBaseManager = new CitiesBaseManager(getContext());
-        cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
+        CityAdapter cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
         mCityListView.setAdapter(cityAdapter);
     }
 }

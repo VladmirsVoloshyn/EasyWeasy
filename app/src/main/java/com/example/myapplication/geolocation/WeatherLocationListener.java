@@ -25,21 +25,18 @@ public class WeatherLocationListener implements LocationListener {
     private boolean isAccess = false;
     private LocationPreferenceManager locationPreferenceManager;
 
+    public static WeatherLocationListener getInstance() {
+        if (mUniqueLocation == null) {
+            mUniqueLocation = new WeatherLocationListener();
+        }
+        return mUniqueLocation;
+    }
 
     public boolean setPermissionCheck(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             return this.isAccess = true;
         return isAccess;
 
-    }
-
-
-
-    public static WeatherLocationListener getInstance() {
-        if (mUniqueLocation == null) {
-            mUniqueLocation = new WeatherLocationListener();
-        }
-        return mUniqueLocation;
     }
 
     public void setLongitude(double longitude) {

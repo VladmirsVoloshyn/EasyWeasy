@@ -2,10 +2,10 @@ package com.example.myapplication.ui.customize.city;
 
 public class City {
 
-    private String cityName;
-    private String descriptionImage;
-    private String temp;
-    private int id;
+    private final String cityName;
+    private final String descriptionImage;
+    private final String temp;
+    private final int id;
 
     public String getCityName() {
         return cityName;
@@ -15,17 +15,7 @@ public class City {
         return descriptionImage;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
 
-    public void setDescriptionImage(String descriptionImage) {
-        this.descriptionImage = descriptionImage;
-    }
-
-    public void setTemp(String temp) {
-        this.temp = temp;
-    }
 
     public int getId() {
         return id;

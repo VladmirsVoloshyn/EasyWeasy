@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.customize.city;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,12 @@ import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 
 public class CityAdapter extends BaseAdapter {
 
-    private Context context;
-    private LayoutInflater layoutInflater;
-    private CitiesBaseManager citiesBaseManager;
+    private final LayoutInflater layoutInflater;
+    private final CitiesBaseManager citiesBaseManager;
 
     public CityAdapter(Context context, CitiesBaseManager citiesBaseManager){
         this.citiesBaseManager = citiesBaseManager;
-        this.context = context;
-        layoutInflater = (LayoutInflater) this.context
+        layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -38,6 +37,7 @@ public class CityAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

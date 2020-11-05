@@ -11,7 +11,6 @@ import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
 import com.example.myapplication.data.DailyWeatherDataConstructor;
-import com.example.myapplication.data.ForecastData.Current;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 
@@ -20,20 +19,18 @@ public class CurrentViewModel extends ViewModel implements LocationCallback {
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
-
-    public MutableLiveData<CurrentWeatherDataConstructor> currentWeatherDataConstructor = new MutableLiveData<>();
+    private final MutableLiveData<CurrentWeatherDataConstructor> currentWeatherDataConstructor = new MutableLiveData<>();
+    protected DataController dataController;
 
     public void updateData(){
-
-        DataController dataController = new DataController(new WeatherDataCallback() {
+        dataController = new DataController(new WeatherDataCallback() {
             @Override
             public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
-                CurrentViewModel.this.currentWeatherDataConstructor.postValue(currentWeatherData);
+                currentWeatherDataConstructor.postValue(currentWeatherData);
             }
 
             @Override
             public void onDataGet(DailyWeatherDataConstructor dailyWeatherDataConstructor) {
-
             }
         });
     }
@@ -45,11 +42,17 @@ public class CurrentViewModel extends ViewModel implements LocationCallback {
 
     @Override
     public void onLocationChanged(Location location) {
+        updateLocation();
         updateData();
         getData();
     }
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public void updateLocation() {
+        WeatherLocationListener.getInstance().setUpLocationListener(this.context, this);
+        WeatherLocationListener.getInstance().requestLocation();
     }
 }

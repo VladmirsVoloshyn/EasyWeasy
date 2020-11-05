@@ -6,9 +6,11 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,10 @@ import com.example.myapplication.geolocation.WeatherLocationListener;
 
 import static com.google.gson.reflect.TypeToken.get;
 
-public class CurrentFragment extends Fragment implements LocationCallback {
+public class CurrentFragment extends Fragment {
 
     private TextView mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
     private ImageView imageView;
-    private ProgressBar progressBar;
     private CurrentViewModel viewModel;
 
     @Nullable
@@ -46,24 +47,17 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         mPressure = rootView.findViewById(R.id.PressureText);
         mHumidity = rootView.findViewById(R.id.HumidityText);
         imageView = rootView.findViewById(R.id.weatherIconView);
-        progressBar = rootView.findViewById(R.id.progressBar);
-
-        WeatherLocationListener.getInstance().setUpLocationListener(getContext(), this);
-        WeatherLocationListener.getInstance().requestLocation();
 
         viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
-
-        return rootView;
-    }
-    @Override
-    public void onLocationChanged(Location location) {
+        viewModel.setContext(getContext());
+        viewModel.updateLocation();
         viewModel.getData().observe(this, new Observer<CurrentWeatherDataConstructor>() {
             @Override
             public void onChanged(@Nullable CurrentWeatherDataConstructor currentWeatherDataConstructor) {
                 setData(currentWeatherDataConstructor);
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         });
+        return rootView;
     }
 
     @SuppressLint("SetTextI18n")
@@ -113,15 +107,5 @@ public class CurrentFragment extends Fragment implements LocationCallback {
                 imageView.setImageResource(R.drawable.mist);
                 mWeatherDescription.setText("Сильный туман");
         }
-
     }
-//        public static boolean isOnline(Context context) {
-//        ConnectivityManager connectivityManager =
-//                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-//        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-//            return true;
-//        }
-//        return false;
-//    }
 }

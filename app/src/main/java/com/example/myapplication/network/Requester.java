@@ -1,6 +1,8 @@
 package com.example.myapplication.network;
 
 
+import android.support.annotation.NonNull;
+
 import com.example.myapplication.data.ForecastData.Main;
 import com.example.myapplication.data.CurrentData.WeatherData;
 
@@ -13,7 +15,7 @@ public class Requester {
     private String CityName;
     private double latitude;
     private double longitude;
-    private RequesterCallback callback;
+    private final RequesterCallback callback;
 
     public Requester(String cityName, RequesterCallback callback) {
         this.callback = callback;
@@ -38,13 +40,13 @@ public class Requester {
                 .getWeatherForCityName(this.CityName, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
-                    public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                    public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                         WeatherData weatherData = response.body();
                         callback.onResponse(weatherData);
                     }
 
                     @Override
-                    public void onFailure(Call<WeatherData> call, Throwable t) {
+                    public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                         t.printStackTrace();
                         callback.onFailure();
                     }
@@ -57,31 +59,32 @@ public class Requester {
                 .getWeatherForLocation(this.latitude, this.longitude, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
-                    public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                    public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                         WeatherData weatherData = response.body();
                         callback.onResponse(weatherData);
                     }
 
                     @Override
-                    public void onFailure(Call<WeatherData> call, Throwable t) {
+                    public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                         t.printStackTrace();
                         callback.onFailure();
                     }
                 });
     }
-    public void requestWeatherBySevenDays(){
+
+    public void requestWeatherBySevenDays() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getWeatherBySevenDays(this.latitude, this.longitude, NetworkService.EXCLUDING_PARAMETERS, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<Main>() {
                     @Override
-                    public void onResponse(Call<Main> call, Response<Main> response) {
-                        Main dailyWeather= response.body();
+                    public void onResponse(@NonNull Call<Main> call, @NonNull Response<Main> response) {
+                        Main dailyWeather = response.body();
                         callback.onResponseBySevenDays(dailyWeather);
                     }
 
                     @Override
-                    public void onFailure(Call<Main> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Main> call, @NonNull Throwable t) {
                         t.printStackTrace();
                         callback.onFailure();
                     }

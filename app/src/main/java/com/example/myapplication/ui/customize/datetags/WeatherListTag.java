@@ -1,9 +1,9 @@
 package com.example.myapplication.ui.customize.datetags;
 
 public class WeatherListTag {
-    private String date;
-    private String temp;
-    private String descriptionImage;
+    private final String date;
+    private final String temp;
+    private final String descriptionImage;
 
     public  WeatherListTag(String date, String temp, String descriptionImage){
     this.date = date;
