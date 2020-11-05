@@ -1,6 +1,5 @@
 package com.example.myapplication.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -22,9 +21,7 @@ import com.example.myapplication.data.DailyWeatherDataConstructor;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
-import com.example.myapplication.ui.customize.WeatherAdapter;
-
-import java.util.Objects;
+import com.example.myapplication.ui.customize.datetags.WeatherAdapter;
 
 public class ForecastFragment extends Fragment implements LocationCallback {
     private TextView mCityName;
@@ -41,7 +38,13 @@ public class ForecastFragment extends Fragment implements LocationCallback {
         mWeatherListView = rootView.findViewById(R.id.weatherList);
         mCityName = rootView.findViewById(R.id.CityNameText);
         backButton = rootView.findViewById(R.id.buttonBack);
+
+        forecastContext = getContext();
+        WeatherLocationListener.getInstance().setUpLocationListener(forecastContext, this);
+        WeatherLocationListener.getInstance().requestLocation();
+
         backButton.setVisibility(Button.INVISIBLE);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,9 +52,7 @@ public class ForecastFragment extends Fragment implements LocationCallback {
                 backButton.setVisibility(Button.INVISIBLE);
             }
         });
-        forecastContext = getContext();
-        WeatherLocationListener.getInstance().setUpLocationListener(forecastContext, this);
-        WeatherLocationListener.getInstance().requestLocation();
+
         mWeatherListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -59,6 +60,7 @@ public class ForecastFragment extends Fragment implements LocationCallback {
                 backButton.setVisibility(Button.VISIBLE);
             }
         });
+
         dataController = new DataController(new WeatherDataCallback() {
             @Override
             public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {

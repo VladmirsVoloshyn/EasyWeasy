@@ -31,7 +31,7 @@ public class CurrentFragment extends Fragment implements LocationCallback {
     final String SAVED_LATITUDE_PREFERENCES = "saved latitude";
     final String SAVED_LONGITUDE_PREFERENCES = "saved longitude";
     double prefLat, prefLon;
-    private TextView mLatText, mLonText, mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
+    private TextView mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
     public DataController dataController;
     public ImageView imageView;
     public ProgressBar progressBar;
@@ -43,16 +43,14 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         View rootView =
                 inflater.inflate(R.layout.fragment_current, null);
 
-        mLatText = rootView.findViewById(R.id.latText);
-        mLonText = rootView.findViewById(R.id.lonText);
         mCityName = rootView.findViewById(R.id.CityNameText);
-        mCurrentDate = rootView.findViewById(R.id.CurrendDataTime);
+        mCurrentDate = rootView.findViewById(R.id.CurrentDate);
         mCurrentTemp = rootView.findViewById(R.id.CurrentDegree);
         mWeatherDescription = rootView.findViewById(R.id.weatherTextDesctiption);
         mMaxAndMinTemp = rootView.findViewById(R.id.MaxAndMinDegree);
         mWindSpeed = rootView.findViewById(R.id.WindSpeedText);
-        mWindDestination = rootView.findViewById(R.id.WindDestenationText);
-        mPressure = rootView.findViewById(R.id.PreassureText);
+        mWindDestination = rootView.findViewById(R.id.WindDestinationText);
+        mPressure = rootView.findViewById(R.id.PressureText);
         mHumidity = rootView.findViewById(R.id.HumidityText);
         imageView = rootView.findViewById(R.id.weatherIconView);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -85,7 +83,6 @@ public class CurrentFragment extends Fragment implements LocationCallback {
                     progressBar.setVisibility(ProgressBar.INVISIBLE);
                     mLoadingView.setVisibility(TextView.INVISIBLE);
                 } else {
-                    mLoadingView.setText("Невозможно получить данные о геолокации, включите GPS навигацию на своем устройстве");
                     progressBar.setVisibility(ProgressBar.VISIBLE);
                     mLoadingView.setVisibility(TextView.VISIBLE);
                 }
@@ -118,7 +115,7 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         SharedPreferences.Editor editor = locationPreferences.edit();
         editor.putString(SAVED_LATITUDE_PREFERENCES, String.valueOf(WeatherLocationListener.getInstance().getLatitude()));
         editor.putString(SAVED_LONGITUDE_PREFERENCES, String.valueOf(WeatherLocationListener.getInstance().getLongitude()));
-        editor.commit();
+        editor.apply();
 
 
         dataController.updateData();
@@ -161,8 +158,6 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         mPressure.setText("Давление " + weatherDataConstructor.getPressure() + " Ртутного столбца");
         mHumidity.setText("Влажность " + weatherDataConstructor.getHumidity());
         mMaxAndMinTemp.setText("Максимальная за день: " + weatherDataConstructor.getMaxDailyTemp() + " C°\n" + "Минимальная за день: " + weatherDataConstructor.getMinDailyTemp() + " C°");
-        mLatText.setText("lat = " + (WeatherLocationListener.getInstance().latitude));
-        mLonText.setText("lon = " + (WeatherLocationListener.getInstance().longitude));
         setIcon(weatherDataConstructor);
     }
 

@@ -6,6 +6,8 @@
     <string name="textview">TextView</string>
     <string name="action_settings">Settings</string>
     <string name="action_cat_male">About</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 
 </resources>

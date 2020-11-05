@@ -2,8 +2,8 @@ package com.example.myapplication.ctrl;
 
 import com.example.myapplication.data.DailyWeatherDataConstructor;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
-import com.example.myapplication.data.DailyWeatherData.Main;
-import com.example.myapplication.data.WeatherData.WeatherData;
+import com.example.myapplication.data.ForecastData.Main;
+import com.example.myapplication.data.CurrentData.WeatherData;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 import com.example.myapplication.network.Requester;
 import com.example.myapplication.network.RequesterCallback;

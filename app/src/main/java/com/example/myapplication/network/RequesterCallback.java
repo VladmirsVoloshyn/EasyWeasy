@@ -2,8 +2,8 @@ package com.example.myapplication.network;
 
 
 
-import com.example.myapplication.data.DailyWeatherData.Main;
-import com.example.myapplication.data.WeatherData.WeatherData;
+import com.example.myapplication.data.ForecastData.Main;
+import com.example.myapplication.data.CurrentData.WeatherData;
 
 public interface RequesterCallback {
     void onResponse(WeatherData weatherData);

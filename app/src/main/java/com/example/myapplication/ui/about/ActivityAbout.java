@@ -1,4 +1,4 @@
-package com.example.myapplication.ui;
+package com.example.myapplication.ui.about;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

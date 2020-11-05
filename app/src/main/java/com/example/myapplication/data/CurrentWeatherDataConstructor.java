@@ -3,9 +3,10 @@ package com.example.myapplication.data;
 
 import com.example.myapplication.ValuesFormat.DateFormat;
 import com.example.myapplication.ValuesFormat.DegreesFormat;
-import com.example.myapplication.data.WeatherData.WeatherData;
+import com.example.myapplication.data.CurrentData.WeatherData;
 
 public class CurrentWeatherDataConstructor {
+
     private String cityName;
     private String currentTemp;
     private String maxDailyTemp;

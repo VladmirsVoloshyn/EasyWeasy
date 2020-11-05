@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.customize;
+package com.example.myapplication.ui.customize.datetags;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -70,7 +70,6 @@ public class WeatherAdapter extends BaseAdapter {
                 ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(R.drawable.showerrain);
                 break;
         }
-
         return view;
     }
 

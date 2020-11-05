@@ -2,8 +2,8 @@ package com.example.myapplication.data;
 
 import com.example.myapplication.ValuesFormat.DateFormat;
 import com.example.myapplication.ValuesFormat.DegreesFormat;
-import com.example.myapplication.data.DailyWeatherData.Main;
-import com.example.myapplication.ui.customize.WeatherListTag;
+import com.example.myapplication.data.ForecastData.Main;
+import com.example.myapplication.ui.customize.datetags.WeatherListTag;
 
 import java.util.ArrayList;
 

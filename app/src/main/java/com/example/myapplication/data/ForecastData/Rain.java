@@ -1,4 +1,4 @@
-package com.example.myapplication.data.DailyWeatherData;
+package com.example.myapplication.data.ForecastData;
 
 
 import com.google.gson.annotations.Expose;

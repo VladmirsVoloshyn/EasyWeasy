@@ -10,11 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.about.ActivityAbout;
 import com.example.myapplication.ui.settings.ActivitySettings;
-
-import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     

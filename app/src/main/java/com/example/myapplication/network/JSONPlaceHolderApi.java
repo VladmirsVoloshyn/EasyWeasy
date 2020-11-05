@@ -4,8 +4,8 @@ package com.example.myapplication.network;
 
 
 
-import com.example.myapplication.data.DailyWeatherData.Main;
-import com.example.myapplication.data.WeatherData.WeatherData;
+import com.example.myapplication.data.ForecastData.Main;
+import com.example.myapplication.data.CurrentData.WeatherData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

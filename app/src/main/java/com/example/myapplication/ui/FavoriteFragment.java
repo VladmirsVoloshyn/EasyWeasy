@@ -53,7 +53,7 @@ public class FavoriteFragment extends Fragment {
 
         updateHud();
 
-        //deleteButton.setVisibility(Button.INVISIBLE);
+        deleteButton.setVisibility(Button.INVISIBLE);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +77,8 @@ public class FavoriteFragment extends Fragment {
 
                     }
                 });
-
+                mCityTextEdit.setText("");
+                mCityTextEdit.setHint("city_name");
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -85,12 +86,14 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 citiesBaseManager.deleteElement(chosenPosition);
+                deleteButton.setVisibility(Button.INVISIBLE);
                 updateHud();
             }
         });
         mCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                deleteButton.setVisibility(Button.VISIBLE);
                 chosenPosition = position;
             }
         });

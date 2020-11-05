@@ -1,9 +1,9 @@
-package com.example.myapplication.data.DailyWeatherData;
+package com.example.myapplication.data.ForecastData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Weather_ {
+public class Weather__ {
 
     @SerializedName("id")
     @Expose

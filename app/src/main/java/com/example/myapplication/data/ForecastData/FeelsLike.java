@@ -1,19 +1,13 @@
-package com.example.myapplication.data.DailyWeatherData;
+package com.example.myapplication.data.ForecastData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Temp {
+public class FeelsLike {
 
     @SerializedName("day")
     @Expose
     private Double day;
-    @SerializedName("min")
-    @Expose
-    private Double min;
-    @SerializedName("max")
-    @Expose
-    private Double max;
     @SerializedName("night")
     @Expose
     private Double night;
@@ -30,22 +24,6 @@ public class Temp {
 
     public void setDay(Double day) {
         this.day = day;
-    }
-
-    public Double getMin() {
-        return min;
-    }
-
-    public void setMin(Double min) {
-        this.min = min;
-    }
-
-    public Double getMax() {
-        return max;
-    }
-
-    public void setMax(Double max) {
-        this.max = max;
     }
 
     public Double getNight() {
@@ -73,3 +51,4 @@ public class Temp {
     }
 
 }
+

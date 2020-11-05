@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.customize;
+package com.example.myapplication.ui.customize.datetags;
 
 public class WeatherListTag {
     private String date;
