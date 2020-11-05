@@ -29,9 +29,6 @@ public class DataController{
     }
 
     public void updateData() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
                 requester = new Requester(WeatherLocationListener.getInstance().getLatitude(), WeatherLocationListener.getInstance().getLongitude(), new RequesterCallback() {
                     @Override
                     public void onResponse(WeatherData weatherData) {
@@ -49,9 +46,6 @@ public class DataController{
                     }
                 });
             }
-        });
-       t.start();
-    }
     public void updateDataByCityName(String cityName){
         requester = new Requester(cityName, new RequesterCallback() {
             @Override

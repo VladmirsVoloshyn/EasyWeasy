@@ -1,11 +1,13 @@
 package com.example.myapplication.data;
 
 
+import android.arch.lifecycle.MutableLiveData;
+
 import com.example.myapplication.ValuesFormat.DateFormat;
 import com.example.myapplication.ValuesFormat.DegreesFormat;
 import com.example.myapplication.data.CurrentData.WeatherData;
 
-public class CurrentWeatherDataConstructor {
+public class CurrentWeatherDataConstructor extends MutableLiveData<CurrentWeatherDataConstructor> {
 
     private String cityName;
     private String currentTemp;

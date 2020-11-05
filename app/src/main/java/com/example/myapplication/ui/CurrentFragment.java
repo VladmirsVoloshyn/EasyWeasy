@@ -1,6 +1,9 @@
 package com.example.myapplication.ui;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -25,6 +28,8 @@ import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 
+import static com.google.gson.reflect.TypeToken.get;
+
 public class CurrentFragment extends Fragment implements LocationCallback {
 
     private SharedPreferences locationPreferences;
@@ -32,17 +37,14 @@ public class CurrentFragment extends Fragment implements LocationCallback {
     final String SAVED_LONGITUDE_PREFERENCES = "saved longitude";
     double prefLat, prefLon;
     private TextView mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
-    public DataController dataController;
     public ImageView imageView;
     public ProgressBar progressBar;
-    private TextView mLoadingView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView =
                 inflater.inflate(R.layout.fragment_current, null);
-
         mCityName = rootView.findViewById(R.id.CityNameText);
         mCurrentDate = rootView.findViewById(R.id.CurrentDate);
         mCurrentTemp = rootView.findViewById(R.id.CurrentDegree);
@@ -54,18 +56,26 @@ public class CurrentFragment extends Fragment implements LocationCallback {
         mHumidity = rootView.findViewById(R.id.HumidityText);
         imageView = rootView.findViewById(R.id.weatherIconView);
         progressBar = rootView.findViewById(R.id.progressBar);
-        mLoadingView = rootView.findViewById(R.id.LoadingText);
 
-        hideHud();
+        CurrentViewModel viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
 
-        isOnline(getContext());
 
         WeatherLocationListener.getInstance().setUpLocationListener(getContext(), this);
         WeatherLocationListener.getInstance().requestLocation();
+        setLocationPreferences();
 
+        viewModel.getData().observe(this, new Observer<CurrentWeatherDataConstructor>() {
+            @Override
+            public void onChanged(@Nullable CurrentWeatherDataConstructor currentWeatherDataConstructor) {
+                setData(currentWeatherDataConstructor);
+            }
+        });
+        return rootView;
+    }
+
+    void setLocationPreferences(){
         locationPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        if (locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, "") != "" & locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, "") != "") {
-
+        if (!(locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, "").equals("")) & !(locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, "")).equals("")) {
             locationPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
             prefLon = Double.parseDouble(locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, ""));
             prefLat = Double.parseDouble(locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, ""));
@@ -73,53 +83,25 @@ public class CurrentFragment extends Fragment implements LocationCallback {
             WeatherLocationListener.getInstance().setLongitude(prefLon);
             WeatherLocationListener.getInstance().setLatitude(prefLat);
         }
-
-        dataController = new DataController(new WeatherDataCallback() {
-            @Override
-            public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
-                if (locationPreferences.getString(SAVED_LONGITUDE_PREFERENCES, "") != "" & locationPreferences.getString(SAVED_LATITUDE_PREFERENCES, "") != "") {
-                    setData(currentWeatherData);
-                    showHud();
-                    progressBar.setVisibility(ProgressBar.INVISIBLE);
-                    mLoadingView.setVisibility(TextView.INVISIBLE);
-                } else {
-                    progressBar.setVisibility(ProgressBar.VISIBLE);
-                    mLoadingView.setVisibility(TextView.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onDataGet(DailyWeatherDataConstructor dailyWeatherDataConstructor) {
-
-            }
-        });
-
-        return rootView;
     }
 
-
-    public static boolean isOnline(Context context) {
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
-    }
+//    public static boolean isOnline(Context context) {
+//        ConnectivityManager connectivityManager =
+//                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+//        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
-
         locationPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = locationPreferences.edit();
         editor.putString(SAVED_LATITUDE_PREFERENCES, String.valueOf(WeatherLocationListener.getInstance().getLatitude()));
         editor.putString(SAVED_LONGITUDE_PREFERENCES, String.valueOf(WeatherLocationListener.getInstance().getLongitude()));
         editor.apply();
-
-
-        dataController.updateData();
-
     }
 
     public void showHud() {

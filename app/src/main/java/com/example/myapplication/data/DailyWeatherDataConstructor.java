@@ -1,5 +1,7 @@
 package com.example.myapplication.data;
 
+import android.arch.lifecycle.MutableLiveData;
+
 import com.example.myapplication.ValuesFormat.DateFormat;
 import com.example.myapplication.ValuesFormat.DegreesFormat;
 import com.example.myapplication.data.ForecastData.Main;
@@ -7,7 +9,7 @@ import com.example.myapplication.ui.customize.datetags.WeatherListTag;
 
 import java.util.ArrayList;
 
-public class DailyWeatherDataConstructor {
+public class DailyWeatherDataConstructor{
 
     public ArrayList<WeatherListTag> weatherListTagArrayList = new ArrayList<>();
 
