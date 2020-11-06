@@ -37,7 +37,7 @@ public class Requester {
     public void requestWeatherByCityName() {
         NetworkService.getInstance()
                 .getJSONApi()
-                .getWeatherForCityName(this.CityName, NetworkService.BASE_APP_ID)
+                .getWeatherByCityName(this.CityName, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
                     public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
@@ -48,7 +48,7 @@ public class Requester {
                     @Override
                     public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                         t.printStackTrace();
-                        callback.onFailure();
+                        callback.onFailure(t);
                     }
                 });
     }
@@ -56,7 +56,7 @@ public class Requester {
     public void requestWeatherByLocation() {
         NetworkService.getInstance()
                 .getJSONApi()
-                .getWeatherForLocation(this.latitude, this.longitude, NetworkService.BASE_APP_ID)
+                .getWeatherByLocation(this.latitude, this.longitude, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
                     public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
@@ -67,7 +67,7 @@ public class Requester {
                     @Override
                     public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                         t.printStackTrace();
-                        callback.onFailure();
+                        callback.onFailure(t);
                     }
                 });
     }
@@ -86,7 +86,7 @@ public class Requester {
                     @Override
                     public void onFailure(@NonNull Call<Main> call, @NonNull Throwable t) {
                         t.printStackTrace();
-                        callback.onFailure();
+                        callback.onFailure(t);
                     }
                 });
 

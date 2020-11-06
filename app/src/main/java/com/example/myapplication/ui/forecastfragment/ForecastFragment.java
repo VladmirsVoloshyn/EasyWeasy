@@ -1,8 +1,9 @@
 package com.example.myapplication.ui.forecastfragment;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ctrl.DataController;
-import com.example.myapplication.ctrl.WeatherDataCallback;
-import com.example.myapplication.data.ForecastWeatherDataConstructor;
-import com.example.myapplication.data.CurrentWeatherDataConstructor;
-import com.example.myapplication.geolocation.LocationCallback;
-import com.example.myapplication.geolocation.WeatherLocationListener;
+import com.example.myapplication.data.ForecastWeatherData;
 import com.example.myapplication.ui.customize.datetags.WeatherAdapter;
 
-public class ForecastFragment extends Fragment implements LocationCallback {
+public class ForecastFragment extends Fragment {
     private TextView mCityName;
-    private DataController dataController;
     private ListView mWeatherListView;
     private Button backButton;
     private Context forecastContext;
@@ -41,8 +36,16 @@ public class ForecastFragment extends Fragment implements LocationCallback {
         backButton = rootView.findViewById(R.id.buttonBack);
 
         forecastContext = getContext();
-        WeatherLocationListener.getInstance().setUpLocationListener(forecastContext, this);
-        WeatherLocationListener.getInstance().requestLocation();
+
+        ForecastViewModel forecastViewModel = (ForecastViewModel) ViewModelProviders.of(this).get(ForecastViewModel.class);
+        forecastViewModel.setContext(getContext());
+        forecastViewModel.updateLocation();
+        forecastViewModel.getData().observe(this, new Observer<ForecastWeatherData>() {
+            @Override
+            public void onChanged(@Nullable ForecastWeatherData forecastWeatherDataConstructor) {
+                setData(forecastWeatherDataConstructor);
+            }
+        });
 
         backButton.setVisibility(Button.INVISIBLE);
 
@@ -61,29 +64,12 @@ public class ForecastFragment extends Fragment implements LocationCallback {
                 backButton.setVisibility(Button.VISIBLE);
             }
         });
-
-        dataController = new DataController(new WeatherDataCallback() {
-            @Override
-            public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
-                mCityName.setText(currentWeatherData.getCityName());
-            }
-
-            @Override
-            public void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
-                setData(dailyWeatherDataConstructor);
-            }
-        });
         return rootView;
     }
 
-    public void setData(final ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
+    public void setData(final ForecastWeatherData dailyWeatherDataConstructor) {
         WeatherAdapter weatherAdapter = new WeatherAdapter(forecastContext, dailyWeatherDataConstructor.getWeatherListTagArrayList());
         mWeatherListView.setAdapter(weatherAdapter);
 
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        dataController.updateData();
     }
 }

@@ -9,8 +9,8 @@ import android.location.Location;
 
 import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
-import com.example.myapplication.data.CurrentWeatherDataConstructor;
-import com.example.myapplication.data.ForecastWeatherDataConstructor;
+import com.example.myapplication.data.CurrentWeatherData;
+import com.example.myapplication.data.ForecastWeatherData;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 
@@ -19,31 +19,29 @@ public class CurrentViewModel extends ViewModel implements LocationCallback {
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
-    private final MutableLiveData<CurrentWeatherDataConstructor> currentWeatherDataConstructor = new MutableLiveData<>();
+    private final MutableLiveData<CurrentWeatherData> currentWeatherDataConstructor = new MutableLiveData<>();
     protected DataController dataController;
 
     public void updateData(){
         dataController = new DataController(new WeatherDataCallback() {
             @Override
-            public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
+            public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
                 currentWeatherDataConstructor.postValue(currentWeatherData);
             }
 
             @Override
-            public void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
+            public void onForecastDataGet(ForecastWeatherData forecastWeatherData) {
             }
         });
     }
 
-    public LiveData<CurrentWeatherDataConstructor> getData(){
+    public LiveData<CurrentWeatherData> getData(){
         updateData();
         return this.currentWeatherDataConstructor;
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        updateLocation();
-        updateData();
         getData();
     }
 

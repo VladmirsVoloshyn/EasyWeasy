@@ -6,13 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.myapplication.network.NetworkService;
+
 public class LocationPreferenceManager {
 
+    private static LocationPreferenceManager singleton;
     private final SQLiteDatabase sqLiteDatabase;
     private final ContentValues contentValues;
 
+    public static LocationPreferenceManager getInstance(Context context) {
+        if (singleton == null) {
+            singleton = new LocationPreferenceManager(context.getApplicationContext());
+        }
+        return singleton;
+    }
 
-    public LocationPreferenceManager(Context context) {
+
+    private LocationPreferenceManager(Context context) {
         LocationPreferencesBase locationPreferencesBase = new LocationPreferencesBase(context);
         sqLiteDatabase = locationPreferencesBase.getWritableDatabase();
         contentValues = new ContentValues();

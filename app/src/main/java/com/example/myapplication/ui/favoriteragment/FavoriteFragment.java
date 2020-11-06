@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
-import com.example.myapplication.data.CurrentWeatherDataConstructor;
-import com.example.myapplication.data.ForecastWeatherDataConstructor;
+import com.example.myapplication.data.CurrentWeatherData;
+import com.example.myapplication.data.ForecastWeatherData;
 import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 import com.example.myapplication.ui.customize.city.CityAdapter;
 
@@ -62,13 +62,13 @@ public class FavoriteFragment extends Fragment {
                 cityName = mCityTextEdit.getText().toString();
                 dataController = new DataController(cityName, new WeatherDataCallback() {
                     @Override
-                    public void onDataGet(CurrentWeatherDataConstructor currentWeatherData) {
+                    public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
                         citiesBaseManager.addElement(currentWeatherData.getCityName(), currentWeatherData.getMainDescription(), currentWeatherData.getCurrentTemp());
                         updateHud();
                     }
 
                     @Override
-                    public void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
+                    public void onForecastDataGet(ForecastWeatherData forecastWeatherData) {
 
                     }
                 });

@@ -6,8 +6,9 @@ import android.arch.lifecycle.MutableLiveData;
 import com.example.myapplication.ValuesFormat.DateFormat;
 import com.example.myapplication.ValuesFormat.DegreesFormat;
 import com.example.myapplication.data.CurrentData.WeatherData;
+import com.example.myapplication.data.ForecastData.Current;
 
-public class CurrentWeatherDataConstructor extends MutableLiveData<CurrentWeatherDataConstructor> {
+public class CurrentWeatherData extends MutableLiveData<CurrentWeatherData> {
 
     private String cityName;
     private String currentTemp;
@@ -106,10 +107,10 @@ public class CurrentWeatherDataConstructor extends MutableLiveData<CurrentWeathe
         this.cityName = cityName;
     }
 
-    public CurrentWeatherDataConstructor() {
+    public CurrentWeatherData() {
     }
 
-    public void build(WeatherData weatherData) {
+    public CurrentWeatherData build(WeatherData weatherData) {
         this.setCityName(weatherData.getName());
         this.setMainDescription(weatherData.getWeather().get(0).getMain());
         this.setDate(DateFormat.formatToGMT(weatherData.getDt()));
@@ -120,6 +121,7 @@ public class CurrentWeatherDataConstructor extends MutableLiveData<CurrentWeathe
         this.setWindDestination(String.valueOf(weatherData.getWind().getDeg()));
         this.setHumidity(String.valueOf(weatherData.getMain().getHumidity()));
         this.setPressure(String.valueOf(weatherData.getMain().getPressure()));
+        return this;
     }
 
 }

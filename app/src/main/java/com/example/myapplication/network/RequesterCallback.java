@@ -8,5 +8,5 @@ import com.example.myapplication.data.CurrentData.WeatherData;
 public interface RequesterCallback {
     void onResponse(WeatherData weatherData);
     void onResponseBySevenDays(Main dailyWeather);
-    void onFailure();
+    void onFailure(Throwable t);
 }

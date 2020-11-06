@@ -12,15 +12,16 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface JSONPlaceHolderApi {
-    @GET("weather?")
-    public Call<WeatherData> getWeatherForCityName(@Query("q") String CityName,
-                                                   @Query("appid") String appid);
 
     @GET("weather?")
-    public Call<WeatherData> getWeatherForLocation(@Query("lat") double latitude,
-                                                   @Query("lon") double Longitude, @Query("appid") String appid);
+    Call<WeatherData> getWeatherByCityName(@Query("q") String CityName,
+                                           @Query("appid") String appId);
+
+    @GET("weather?")
+    Call<WeatherData> getWeatherByLocation(@Query("lat") double latitude,
+                                           @Query("lon") double Longitude, @Query("appid") String appId);
     @GET("onecall?")
-    public  Call<Main> getWeatherBySevenDays(@Query("lat") double latitude,
-                                             @Query("lon") double Longitude, @Query("exclude") String excludeparam, @Query("appid") String appid);
+    Call<Main> getWeatherBySevenDays(@Query("lat") double latitude,
+                                     @Query("lon") double Longitude, @Query("exclude") String excludeParam, @Query("appid") String appId);
 
 }

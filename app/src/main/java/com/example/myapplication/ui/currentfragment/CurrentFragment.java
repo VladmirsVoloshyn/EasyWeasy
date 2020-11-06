@@ -3,34 +3,23 @@ package com.example.myapplication.ui.currentfragment;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.myapplication.data.CurrentWeatherDataConstructor;
+import com.example.myapplication.data.CurrentWeatherData;
 import com.example.myapplication.R;
-import com.example.myapplication.geolocation.LocationCallback;
-import com.example.myapplication.geolocation.WeatherLocationListener;
-
-import static com.google.gson.reflect.TypeToken.get;
 
 public class CurrentFragment extends Fragment {
 
     private TextView mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
     private ImageView imageView;
-    private CurrentViewModel viewModel;
 
     @Nullable
     @Override
@@ -48,20 +37,21 @@ public class CurrentFragment extends Fragment {
         mHumidity = rootView.findViewById(R.id.HumidityText);
         imageView = rootView.findViewById(R.id.weatherIconView);
 
-        viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
+        CurrentViewModel viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
         viewModel.setContext(getContext());
         viewModel.updateLocation();
-        viewModel.getData().observe(this, new Observer<CurrentWeatherDataConstructor>() {
+        viewModel.getData().observe(this, new Observer<CurrentWeatherData>() {
             @Override
-            public void onChanged(@Nullable CurrentWeatherDataConstructor currentWeatherDataConstructor) {
+            public void onChanged(@Nullable CurrentWeatherData currentWeatherDataConstructor) {
                 setData(currentWeatherDataConstructor);
             }
         });
         return rootView;
     }
 
+
     @SuppressLint("SetTextI18n")
-    public void setData(CurrentWeatherDataConstructor weatherDataConstructor) {
+    public void setData(CurrentWeatherData weatherDataConstructor) {
         mCityName.setText(weatherDataConstructor.getCityName());
         mCurrentDate.setText(weatherDataConstructor.getDate());
         mCurrentTemp.setText(weatherDataConstructor.getCurrentTemp() + " C°");
@@ -70,42 +60,49 @@ public class CurrentFragment extends Fragment {
         mPressure.setText("Давление " + weatherDataConstructor.getPressure() + " Ртутного столбца");
         mHumidity.setText("Влажность " + weatherDataConstructor.getHumidity());
         mMaxAndMinTemp.setText("Максимальная за день: " + weatherDataConstructor.getMaxDailyTemp() + " C°\n" + "Минимальная за день: " + weatherDataConstructor.getMinDailyTemp() + " C°");
-        setIcon(weatherDataConstructor);
-    }
 
-    public void setIcon(CurrentWeatherDataConstructor weatherDataConstructor) {
         switch (weatherDataConstructor.getMainDescription()) {
-            case ("Clear"):
+            case (TagWEaterDescription.CLEAR):
                 imageView.setImageResource(R.drawable.clear);
-                mWeatherDescription.setText("Ясно");
+                mWeatherDescription.setText(R.string.ClearDescript);
                 break;
-            case ("Rain"):
+            case (TagWEaterDescription.RAIN):
                 imageView.setImageResource(R.drawable.rain);
-                mWeatherDescription.setText("Дождь");
+                mWeatherDescription.setText(R.string.Rain);
                 break;
-            case ("Snow"):
+            case (TagWEaterDescription.SNOW):
                 imageView.setImageResource(R.drawable.snow);
-                mWeatherDescription.setText("Снег");
+                mWeatherDescription.setText(R.string.Snow);
                 break;
-            case ("Clouds"):
+            case (TagWEaterDescription.CLOUDS):
                 imageView.setImageResource(R.drawable.clouds);
-                mWeatherDescription.setText("Облачно");
+                mWeatherDescription.setText(R.string.Clouds);
                 break;
-            case ("Thunderstorm"):
+            case (TagWEaterDescription.THUNDERSTORM):
                 imageView.setImageResource(R.drawable.thunder);
-                mWeatherDescription.setText("Гроза");
+                mWeatherDescription.setText(R.string.Thunderstorm);
                 break;
-            case ("Mist"):
+            case (TagWEaterDescription.MIST):
                 imageView.setImageResource(R.drawable.mist);
-                mWeatherDescription.setText("Туман");
+                mWeatherDescription.setText(R.string.Mist);
                 break;
-            case ("Drizzle"):
+            case (TagWEaterDescription.DRIZZLE):
                 imageView.setImageResource(R.drawable.showerrain);
-                mWeatherDescription.setText("Изморось");
+                mWeatherDescription.setText(R.string.Drizzle);
                 break;
-            case ("Fog"):
+            case (TagWEaterDescription.FOG):
                 imageView.setImageResource(R.drawable.mist);
-                mWeatherDescription.setText("Сильный туман");
+                mWeatherDescription.setText(R.string.Fog);
         }
+    }
+    static final class TagWEaterDescription{
+        static final String CLEAR = "Clear";
+        static final String RAIN = "Rain";
+        static final String SNOW = "Snow";
+        static final String CLOUDS = "Clouds";
+        static final String THUNDERSTORM = "Thunderstorm";
+        static final String MIST = "Mist";
+        static final String DRIZZLE = "Drizzle";
+        static final String FOG = "Fog";
     }
 }

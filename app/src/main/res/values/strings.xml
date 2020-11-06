@@ -9,6 +9,22 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="favoriteListDesc">Favorite List</string>
+    <string name="ClearDescript">Ясно</string>
+    <string name="Rain">Дождь</string>
+    <string name="Snow">Снег</string>
+    <string name="Clouds">Облачно</string>
+    <string name="Thunderstorm">Гроза</string>
+    <string name="Mist">Туман</string>
+    <string name="Drizzle">Изморось</string>
+    <string name="Degree">°</string>
+    <string name="CelsiusDegree"> °С</string>
+    <string name="Fog">Сильный туман</string>
+<!--    <string name="Fog">Сильный туман</string>-->
+<!--    <string name="Fog">Сильный туман</string>-->
+<!--    <string name="Fog">Сильный туман</string>-->
+<!--    <string name="Fog">Сильный туман</string>-->
+
+
 
 
 </resources>

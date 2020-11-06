@@ -1,9 +1,9 @@
 package com.example.myapplication.ctrl;
 
-import com.example.myapplication.data.ForecastWeatherDataConstructor;
-import com.example.myapplication.data.CurrentWeatherDataConstructor;
+import com.example.myapplication.data.ForecastWeatherData;
+import com.example.myapplication.data.CurrentWeatherData;
 
 public interface WeatherDataCallback {
-        void onDataGet(CurrentWeatherDataConstructor currentWeatherData);
-        void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor);
+        void onCurrentDataGet(CurrentWeatherData currentWeatherData);
+        void onForecastDataGet(ForecastWeatherData forecastWeatherData);
 }

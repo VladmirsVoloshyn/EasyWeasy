@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
-    public static NetworkService mUniqueNetwork;
+    private static NetworkService mUniqueNetwork;
     public static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     public static final String BASE_APP_ID = "56882f34de7c6d69857a27e5288c52c8";
     public static final String EXCLUDING_PARAMETERS = "current,minutely,hourly";

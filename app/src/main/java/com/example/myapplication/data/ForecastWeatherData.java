@@ -10,18 +10,21 @@ import com.example.myapplication.ui.customize.datetags.WeatherListTag;
 
 import java.util.ArrayList;
 
-public class ForecastWeatherDataConstructor extends MutableLiveData<ForecastWeatherDataConstructor> {
+public class ForecastWeatherData extends MutableLiveData<ForecastWeatherData> {
 
-    public ArrayList<WeatherListTag> weatherListTagArrayList = new ArrayList<>();
+    private final ArrayList<WeatherListTag> weatherListTagArrayList = new ArrayList<>();
+
 
     public ArrayList<WeatherListTag> getWeatherListTagArrayList() {
         return weatherListTagArrayList;
     }
 
-    public ForecastWeatherDataConstructor() {
+
+    public ForecastWeatherData() {
     }
 
     public void fillDataToList(Main forecastData){
+        this.weatherListTagArrayList.clear();
         for(Daily data : forecastData.getDaily())
         {
             this.weatherListTagArrayList.add(new WeatherListTag(DateFormat.formatToGMT(data.getDt()),
@@ -30,7 +33,8 @@ public class ForecastWeatherDataConstructor extends MutableLiveData<ForecastWeat
         }
     }
 
-    public void build(Main dailyWeather) {
+    public ForecastWeatherData build(Main dailyWeather) {
         this.fillDataToList(dailyWeather);
+        return this;
     }
 }

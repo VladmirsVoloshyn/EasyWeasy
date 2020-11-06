@@ -28,11 +28,13 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == 1) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                WeatherLocationListener.getInstance().setUpLocationListener(this, this);
+                WeatherLocationListener.getInstance().setUpLocationListener(this,
+                        this);
                 WeatherLocationListener.getInstance().requestLocation();
                 if (WeatherLocationListener.getInstance().getImHere() != null) {
                     Intent intent = new Intent(this, WeatherActivity.class);
@@ -43,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
     }
 
     private void requestLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
 
     public void onStartClick(View view) {
         requestLocationPermission();
-        start();
     }
 
     @SuppressLint("ApplySharedPref")
@@ -62,12 +65,10 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
         WeatherLocationListener.getInstance().requestLocation();
     }
 
-    void start(){
-        if (WeatherLocationListener.getInstance().setPermissionCheck(this)){
+    public void start() {
+        if (WeatherLocationListener.getInstance().setPermissionCheck(this)) {
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
         }
-        else return;
     }
-
 }
