@@ -1,6 +1,6 @@
 package com.example.myapplication.ctrl;
 
-import com.example.myapplication.data.DailyWeatherDataConstructor;
+import com.example.myapplication.data.ForecastWeatherDataConstructor;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
 import com.example.myapplication.data.ForecastData.Main;
 import com.example.myapplication.data.CurrentData.WeatherData;
@@ -11,19 +11,19 @@ import com.example.myapplication.network.RequesterCallback;
 public class DataController{
     public Requester requester;
     public CurrentWeatherDataConstructor dataConstructor;
-    public DailyWeatherDataConstructor dailyWeatherDataConstructor;
+    public ForecastWeatherDataConstructor dailyWeatherDataConstructor;
     private final WeatherDataCallback dataCallback;
 
     public DataController(WeatherDataCallback dataCallback) {
         this.dataConstructor = new CurrentWeatherDataConstructor();
-        this.dailyWeatherDataConstructor = new DailyWeatherDataConstructor();
+        this.dailyWeatherDataConstructor = new ForecastWeatherDataConstructor();
         this.dataCallback = dataCallback;
         updateData();
     }
 
     public DataController(String cityName, WeatherDataCallback dataCallback) {
         this.dataConstructor = new CurrentWeatherDataConstructor();
-        this.dailyWeatherDataConstructor = new DailyWeatherDataConstructor();
+        this.dailyWeatherDataConstructor = new ForecastWeatherDataConstructor();
         this.dataCallback = dataCallback;
         updateDataByCityName(cityName);
     }

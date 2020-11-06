@@ -18,7 +18,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
-import com.example.myapplication.data.DailyWeatherDataConstructor;
+import com.example.myapplication.data.ForecastWeatherDataConstructor;
 import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 import com.example.myapplication.ui.customize.city.CityAdapter;
 
@@ -68,7 +68,7 @@ public class FavoriteFragment extends Fragment {
                     }
 
                     @Override
-                    public void onDataGet(DailyWeatherDataConstructor dailyWeatherDataConstructor) {
+                    public void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
 
                     }
                 });

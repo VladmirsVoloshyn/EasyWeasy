@@ -17,7 +17,7 @@ import com.example.myapplication.MainActivity;
 public class WeatherLocationListener implements LocationListener {
 
     public static WeatherLocationListener mUniqueLocation;
-    public static Location imHere = null;
+    private Location imHere = null;
     private LocationCallback callback;
     private LocationManager locationManager;
     private double longitude;
@@ -37,6 +37,10 @@ public class WeatherLocationListener implements LocationListener {
             return this.isAccess = true;
         return isAccess;
 
+    }
+
+    public Location getImHere() {
+        return imHere;
     }
 
     public void setLongitude(double longitude) {

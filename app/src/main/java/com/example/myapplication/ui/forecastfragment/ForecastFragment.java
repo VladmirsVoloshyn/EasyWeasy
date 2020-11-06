@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.forecastfragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
-import com.example.myapplication.data.DailyWeatherDataConstructor;
+import com.example.myapplication.data.ForecastWeatherDataConstructor;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
@@ -33,7 +34,7 @@ public class ForecastFragment extends Fragment implements LocationCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView =
+        @SuppressLint("InflateParams") View rootView =
                 inflater.inflate(R.layout.fragment_forecast, null);
         mWeatherListView = rootView.findViewById(R.id.weatherList);
         mCityName = rootView.findViewById(R.id.CityNameText);
@@ -68,14 +69,14 @@ public class ForecastFragment extends Fragment implements LocationCallback {
             }
 
             @Override
-            public void onDataGet(DailyWeatherDataConstructor dailyWeatherDataConstructor) {
+            public void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
                 setData(dailyWeatherDataConstructor);
             }
         });
         return rootView;
     }
 
-    public void setData(final DailyWeatherDataConstructor dailyWeatherDataConstructor) {
+    public void setData(final ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
         WeatherAdapter weatherAdapter = new WeatherAdapter(forecastContext, dailyWeatherDataConstructor.getWeatherListTagArrayList());
         mWeatherListView.setAdapter(weatherAdapter);
 

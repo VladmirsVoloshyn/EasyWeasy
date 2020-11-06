@@ -10,7 +10,7 @@ import android.location.Location;
 import com.example.myapplication.ctrl.DataController;
 import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.data.CurrentWeatherDataConstructor;
-import com.example.myapplication.data.DailyWeatherDataConstructor;
+import com.example.myapplication.data.ForecastWeatherDataConstructor;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
 
@@ -30,7 +30,7 @@ public class CurrentViewModel extends ViewModel implements LocationCallback {
             }
 
             @Override
-            public void onDataGet(DailyWeatherDataConstructor dailyWeatherDataConstructor) {
+            public void onDataGet(ForecastWeatherDataConstructor dailyWeatherDataConstructor) {
             }
         });
     }

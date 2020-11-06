@@ -23,22 +23,20 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nextAction();
+        start();
 
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    WeatherLocationListener.getInstance().setUpLocationListener(this, this);
-                    WeatherLocationListener.getInstance().requestLocation();
-                    if (WeatherLocationListener.getInstance().imHere != null) {
-                        Intent intent = new Intent(this, WeatherActivity.class);
-                        startActivity(intent);
-                    }
+        if (requestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                WeatherLocationListener.getInstance().setUpLocationListener(this, this);
+                WeatherLocationListener.getInstance().requestLocation();
+                if (WeatherLocationListener.getInstance().getImHere() != null) {
+                    Intent intent = new Intent(this, WeatherActivity.class);
+                    startActivity(intent);
                 }
             }
         }
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
 
     public void onStartClick(View view) {
         requestLocationPermission();
-        nextAction();
+        start();
     }
 
     @SuppressLint("ApplySharedPref")
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
         WeatherLocationListener.getInstance().requestLocation();
     }
 
-    void nextAction(){
+    void start(){
         if (WeatherLocationListener.getInstance().setPermissionCheck(this)){
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);

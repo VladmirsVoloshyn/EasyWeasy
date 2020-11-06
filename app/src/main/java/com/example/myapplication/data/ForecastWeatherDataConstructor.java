@@ -4,12 +4,13 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.example.myapplication.ValuesFormat.DateFormat;
 import com.example.myapplication.ValuesFormat.DegreesFormat;
+import com.example.myapplication.data.ForecastData.Daily;
 import com.example.myapplication.data.ForecastData.Main;
 import com.example.myapplication.ui.customize.datetags.WeatherListTag;
 
 import java.util.ArrayList;
 
-public class DailyWeatherDataConstructor{
+public class ForecastWeatherDataConstructor extends MutableLiveData<ForecastWeatherDataConstructor> {
 
     public ArrayList<WeatherListTag> weatherListTagArrayList = new ArrayList<>();
 
@@ -17,17 +18,19 @@ public class DailyWeatherDataConstructor{
         return weatherListTagArrayList;
     }
 
-    public DailyWeatherDataConstructor() {
+    public ForecastWeatherDataConstructor() {
     }
 
-    public void fillListData(Main dailyWeather) {
-        this.weatherListTagArrayList.clear();
-        for (int i = 1; i < dailyWeather.getDaily().size(); i++) {
-            this.weatherListTagArrayList.add(new WeatherListTag(DateFormat.formatToGMT(dailyWeather.getDaily().get(i).getDt()), Math.round(DegreesFormat.formatToCelsius(dailyWeather.getDaily().get(i).getTemp().getDay())) + " C°", dailyWeather.getDaily().get(i).getWeather().get(0).getMain()));
+    public void fillDataToList(Main forecastData){
+        for(Daily data : forecastData.getDaily())
+        {
+            this.weatherListTagArrayList.add(new WeatherListTag(DateFormat.formatToGMT(data.getDt()),
+                    Math.round(DegreesFormat.formatToCelsius(data.getTemp().getDay())) + " C°",
+                    data.getWeather().get(0).getMain()));
         }
     }
 
     public void build(Main dailyWeather) {
-        this.fillListData(dailyWeather);
+        this.fillDataToList(dailyWeather);
     }
 }
