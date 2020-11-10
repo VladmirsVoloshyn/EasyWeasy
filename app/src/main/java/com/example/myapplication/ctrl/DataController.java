@@ -27,7 +27,6 @@ public class DataController{
         this.dataCallback = dataCallback;
         updateDataByCityName(cityName);
     }
-
     public void updateData() {
                 requester = new Requester(WeatherLocationListener.getInstance().getLatitude(),
                         WeatherLocationListener.getInstance().getLongitude(),

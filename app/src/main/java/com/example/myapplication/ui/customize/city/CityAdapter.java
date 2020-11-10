@@ -11,25 +11,27 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 
+import java.util.ArrayList;
+
 public class CityAdapter extends BaseAdapter {
 
     private final LayoutInflater layoutInflater;
-    private final CitiesBaseManager citiesBaseManager;
+    private final ArrayList<City> arrayList;
 
-    public CityAdapter(Context context, CitiesBaseManager citiesBaseManager){
-        this.citiesBaseManager = citiesBaseManager;
+    public CityAdapter(Context context, ArrayList<City> arrayListCities){
+        this.arrayList = arrayListCities;
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return citiesBaseManager.getCitiesList().size();
+        return arrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return citiesBaseManager.getCitiesList().get(position);
+        return arrayList.get(position);
     }
 
     @Override
@@ -45,11 +47,11 @@ public class CityAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.city_list_layout, parent, false);
         }
 
-        citiesBaseManager.getCitiesList().get(position);
+        arrayList.get(position);
 
-        ((TextView) view.findViewById(R.id.TextViewCity)).setText(  citiesBaseManager.getCitiesList().get(position).getCityName());
-        ((TextView) view.findViewById(R.id.TextViewTemp)).setText(  citiesBaseManager.getCitiesList().get(position).getTemp() + "");
-        switch (  citiesBaseManager.getCitiesList().get(position).getDescriptionImage()){
+        ((TextView) view.findViewById(R.id.TextViewCity)).setText( arrayList.get(position).getCityName());
+        ((TextView) view.findViewById(R.id.TextViewTemp)).setText(  arrayList.get(position).getTemp() + "");
+        switch (  arrayList.get(position).getDescriptionImage()){
             case ("Clear"):
                 ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(R.drawable.clear);
                 break;

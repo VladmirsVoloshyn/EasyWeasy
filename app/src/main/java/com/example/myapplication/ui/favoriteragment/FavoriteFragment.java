@@ -1,7 +1,11 @@
 package com.example.myapplication.ui.favoriteragment;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +24,23 @@ import com.example.myapplication.ctrl.WeatherDataCallback;
 import com.example.myapplication.data.CurrentWeatherData;
 import com.example.myapplication.data.ForecastWeatherData;
 import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
+import com.example.myapplication.ui.customize.city.City;
 import com.example.myapplication.ui.customize.city.CityAdapter;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class FavoriteFragment extends Fragment {
-    private DataController dataController;
+
     private ListView mCityListView;
     private Button deleteButton;
     private EditText mCityTextEdit;
-    private String cityName;
-    private CitiesBaseManager citiesBaseManager;
     private int chosenPosition;
+    private ArrayList<City> arrayList;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,47 +53,41 @@ public class FavoriteFragment extends Fragment {
         mCityTextEdit = rootView.findViewById(R.id.editTextCityName);
         mCurrentDate.setText(R.string.favoriteListDesc);
         deleteButton.setVisibility(Button.INVISIBLE);
-
         Button addButton = rootView.findViewById(R.id.btnAdd);
 
-        updateHud();
+        final FavoriteViewModel favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        favoriteViewModel.init(Objects.requireNonNull(getContext()));
 
-
-
-        backButton.setOnClickListener(new View.OnClickListener() {
+        favoriteViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<City>>() {
             @Override
-            public void onClick(View v) {
-
+            public void onChanged(@Nullable ArrayList<City> arrayList) {
+                updateHud(arrayList);
             }
         });
+
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cityName = mCityTextEdit.getText().toString();
-                dataController = new DataController(cityName, new WeatherDataCallback() {
+                favoriteViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<City>>() {
                     @Override
-                    public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
-                        citiesBaseManager.addElement(currentWeatherData.getCityName(), currentWeatherData.getMainDescription(), currentWeatherData.getCurrentTemp());
-                        updateHud();
-                    }
-
-                    @Override
-                    public void onForecastDataGet(ForecastWeatherData forecastWeatherData) {
-
+                    public void onChanged(@Nullable ArrayList<City> cities) {
+                        favoriteViewModel.addData(mCityTextEdit.getText().toString());
+                        arrayList = cities;
                     }
                 });
                 mCityTextEdit.setText("");
                 mCityTextEdit.setHint("city_name");
+                updateHud(arrayList);
             }
         });
-        deleteButton.setOnClickListener(new View.OnClickListener() {
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                citiesBaseManager.deleteElement(chosenPosition);
-                deleteButton.setVisibility(Button.INVISIBLE);
-                updateHud();
+                favoriteViewModel.deleteData(chosenPosition);
             }
+
         });
         mCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,12 +96,21 @@ public class FavoriteFragment extends Fragment {
                 chosenPosition = position;
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return rootView;
     }
 
-    void updateHud() {
-        citiesBaseManager = new CitiesBaseManager(getContext());
-        CityAdapter cityAdapter = new CityAdapter(getContext(), citiesBaseManager);
+
+    void updateHud(ArrayList<City> cities) {
+        CityAdapter cityAdapter = new CityAdapter(getContext(), cities);
         mCityListView.setAdapter(cityAdapter);
     }
+
 }
