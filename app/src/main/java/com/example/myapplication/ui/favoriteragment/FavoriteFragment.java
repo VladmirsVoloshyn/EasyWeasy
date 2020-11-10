@@ -43,12 +43,13 @@ public class FavoriteFragment extends Fragment {
         deleteButton = rootView.findViewById(R.id.btnDelete);
         mCityTextEdit = rootView.findViewById(R.id.editTextCityName);
         mCurrentDate.setText(R.string.favoriteListDesc);
+        deleteButton.setVisibility(Button.INVISIBLE);
 
         Button addButton = rootView.findViewById(R.id.btnAdd);
 
         updateHud();
 
-        deleteButton.setVisibility(Button.INVISIBLE);
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

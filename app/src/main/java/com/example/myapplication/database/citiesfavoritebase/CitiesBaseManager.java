@@ -16,9 +16,18 @@ public class CitiesBaseManager {
     private final SQLiteDatabase sqLiteDatabase;
     private final ArrayList<City> citiesList;
 
+    public CitiesBaseManager(Context context) {
+        CityBase cityBase = new CityBase(context);
+        sqLiteDatabase = cityBase.getWritableDatabase();
+        contentValues = new ContentValues();
+        citiesList = new ArrayList<>();
+        fillDataToList();
+    }
+
     public ArrayList<City> getCitiesList() {
         return citiesList;
     }
+
 
     public void fillDataToList() {
         Cursor cursor = sqLiteDatabase.query(CityBase.TABLE_CITIES, null, null, null, null, null, null);
@@ -28,34 +37,40 @@ public class CitiesBaseManager {
             int descriptionIndex = cursor.getColumnIndex(CityBase.KEY_DESCRIPTION);
             int temperatureIndex = cursor.getColumnIndex(CityBase.KEY_TEMPERATURE);
             do {
-                citiesList.add(new City(cursor.getString(nameIndex), cursor.getString(descriptionIndex), cursor.getString(temperatureIndex) , cursor.getInt(idIndex)));
+                citiesList.add(new City(cursor.getString(nameIndex), cursor.getString(descriptionIndex), cursor.getString(temperatureIndex), cursor.getInt(idIndex)));
             } while (cursor.moveToNext());
         } else Log.d("mLog", "0 row");
         cursor.close();
     }
 
-    public CitiesBaseManager(Context context) {
-        CityBase cityBase = new CityBase(context);
-        sqLiteDatabase = cityBase.getWritableDatabase();
-        contentValues = new ContentValues();
-        citiesList = new ArrayList<>();
+
+    public void addElement(final String name, final String description, final String temperature) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                contentValues.put(CityBase.KEY_NAME, name);
+                contentValues.put(CityBase.KEY_DESCRIPTION, description);
+                contentValues.put(CityBase.KEY_TEMPERATURE, temperature);
+
+                sqLiteDatabase.insert(CityBase.TABLE_CITIES, null, contentValues);
+            }
+        });
+        t.start();
         fillDataToList();
     }
 
-    public void addElement(String name, String description, String temperature) {
-        contentValues.put(CityBase.KEY_NAME, name);
-        contentValues.put(CityBase.KEY_DESCRIPTION, description);
-        contentValues.put(CityBase.KEY_TEMPERATURE, temperature);
+    public void deleteElement(final int position) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int id = getCitiesList().get(position).getId();
+                int delCount = sqLiteDatabase.delete(CityBase.TABLE_CITIES, CityBase.KEY_ID + "= " + id, null);
+                Log.d("mLog", "delete rows count = " + delCount);
+                fillDataToList();
+            }
+        });
+        t.start();
 
-        sqLiteDatabase.insert(CityBase.TABLE_CITIES, null, contentValues);
-        fillDataToList();
-    }
-
-    public void deleteElement(int position) {
-        int id = getCitiesList().get(position).getId();
-        int delCount = sqLiteDatabase.delete(CityBase.TABLE_CITIES, CityBase.KEY_ID + "= " + id, null);
-        Log.d("mLog", "delete rows count = " + delCount);
-        fillDataToList();
     }
 
 }

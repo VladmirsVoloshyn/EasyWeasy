@@ -16,7 +16,7 @@ import com.example.myapplication.MainActivity;
 
 public class WeatherLocationListener implements LocationListener {
 
-    private static WeatherLocationListener mUniqueLocation;
+    private  static WeatherLocationListener mUniqueLocation;
     private Location imHere = null;
     private LocationCallback callback;
     private LocationManager locationManager;
@@ -25,7 +25,7 @@ public class WeatherLocationListener implements LocationListener {
     private boolean isAccess = false;
     private Context locationListenerContext;
 
-    public static WeatherLocationListener getInstance() {
+    public static   WeatherLocationListener getInstance() {
         if (mUniqueLocation == null) {
             mUniqueLocation = new WeatherLocationListener();
         }
@@ -63,27 +63,11 @@ public class WeatherLocationListener implements LocationListener {
         return latitude;
     }
 
-//    public void setUpLocationListener(MainActivity context, LocationCallback callback) {
-//        this.callback = callback;
-//        LocationPreferenceManager.getInstance(context);
-//        LocationPreferenceManager.getInstance(context).getSavedPreferences();
-//        locationManager = (LocationManager)
-//                context.getSystemService(Context.LOCATION_SERVICE);
-//        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(context,
-//                Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            return;
-//        }
-//        requestLocation();
-//    }
-
     public void setUpLocationListener(Context context, LocationCallback callback) {
         this.locationListenerContext = context;
         this.callback = callback;
-        LocationPreferenceManager.getInstance(context);
-        LocationPreferenceManager.getInstance(context).getSavedPreferences();
+        LocationPreferenceManager.getInstance(context.getApplicationContext());
+        LocationPreferenceManager.getInstance(context.getApplicationContext()).getSavedPreferences();
         locationManager = (LocationManager)
 
                 context.getSystemService(Context.LOCATION_SERVICE);

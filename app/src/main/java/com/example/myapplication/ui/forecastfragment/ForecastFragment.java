@@ -15,12 +15,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.data.ForecastWeatherData;
 import com.example.myapplication.ui.customize.datetags.WeatherAdapter;
 
 public class ForecastFragment extends Fragment {
+
     private TextView mCityName;
     private ListView mWeatherListView;
     private Button backButton;
@@ -37,13 +39,18 @@ public class ForecastFragment extends Fragment {
 
         forecastContext = getContext();
 
-        ForecastViewModel forecastViewModel = (ForecastViewModel) ViewModelProviders.of(this).get(ForecastViewModel.class);
-        forecastViewModel.setContext(getContext());
+        ForecastViewModel forecastViewModel = ViewModelProviders.of(this).get(ForecastViewModel.class);
         forecastViewModel.updateLocation();
         forecastViewModel.getData().observe(this, new Observer<ForecastWeatherData>() {
             @Override
             public void onChanged(@Nullable ForecastWeatherData forecastWeatherDataConstructor) {
-                setData(forecastWeatherDataConstructor);
+                try {
+                    if (forecastWeatherDataConstructor != null) {
+                        setData(forecastWeatherDataConstructor);
+                    }
+                }catch (NullPointerException n){
+                    Toast.makeText(getContext(), "Unknown Error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -69,6 +76,7 @@ public class ForecastFragment extends Fragment {
 
     public void setData(final ForecastWeatherData dailyWeatherDataConstructor) {
         WeatherAdapter weatherAdapter = new WeatherAdapter(forecastContext, dailyWeatherDataConstructor.getWeatherListTagArrayList());
+        mCityName.setText(dailyWeatherDataConstructor.getWeatherListTagArrayList().get(0).getTimeZone());
         mWeatherListView.setAdapter(weatherAdapter);
 
     }

@@ -1,8 +1,6 @@
 package com.example.myapplication.ui.forecastfragment;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
@@ -17,8 +15,6 @@ import com.example.myapplication.geolocation.WeatherLocationListener;
 
 public class ForecastViewModel extends ViewModel implements LocationCallback {
 
-    @SuppressLint("StaticFieldLeak")
-    private Context context;
     private final MutableLiveData<ForecastWeatherData> forecastLiveData = new MutableLiveData<>();
     protected DataController dataController;
 
@@ -43,10 +39,6 @@ public class ForecastViewModel extends ViewModel implements LocationCallback {
     @Override
     public void onLocationChanged(Location location) {
         getData();
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public void updateLocation() {
