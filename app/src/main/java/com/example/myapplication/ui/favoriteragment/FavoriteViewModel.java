@@ -29,28 +29,27 @@ public class FavoriteViewModel extends ViewModel {
             @Override
             public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
                 citiesBaseManager.addElement(currentWeatherData.getCityName(),currentWeatherData.getMainDescription(), currentWeatherData.getCurrentTemp());
+                mutableLiveData.setValue(citiesBaseManager.getCitiesList());
             }
             @Override
             public void onForecastDataGet(ForecastWeatherData forecastWeatherData) {
             }
         });
     }
-
-    public void setData(){
-                mutableLiveData.setValue(citiesBaseManager.getCitiesList());
-    }
-
-    public void addData(String cityName){
+    public MutableLiveData<ArrayList<City>> addData(String cityName){
         updateData(cityName);
+        return this.mutableLiveData;
     }
 
-    public void deleteData(int chosenPosition){
+    public MutableLiveData<ArrayList<City>> deleteData(int chosenPosition){
         citiesBaseManager.deleteElement(chosenPosition);
+        mutableLiveData.setValue(citiesBaseManager.getCitiesList());
+        return this.mutableLiveData;
     }
 
     public MutableLiveData<ArrayList<City>> getMutableLiveData(){
-        setData();
-        return mutableLiveData;
+        mutableLiveData.setValue(citiesBaseManager.getCitiesList());
+        return this.mutableLiveData;
     }
 
 }

@@ -38,6 +38,7 @@ public class FavoriteFragment extends Fragment {
     private Button deleteButton;
     private EditText mCityTextEdit;
     private int chosenPosition;
+    private FavoriteViewModel favoriteViewModel;
 
     @Nullable
     @Override
@@ -52,8 +53,9 @@ public class FavoriteFragment extends Fragment {
         mCurrentDate.setText(R.string.favoriteListDesc);
         deleteButton.setVisibility(Button.INVISIBLE);
         Button addButton = rootView.findViewById(R.id.btnAdd);
-        final FavoriteViewModel favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
         favoriteViewModel.init(getContext());
+
         favoriteViewModel.getMutableLiveData().observe(this, new Observer<ArrayList<City>>() {
             @Override
             public void onChanged(@Nullable ArrayList<City> arrayList) {
@@ -64,10 +66,10 @@ public class FavoriteFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                favoriteViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<City>>() {
+                favoriteViewModel.addData(mCityTextEdit.getText().toString()).observe(FavoriteFragment.this, new Observer<ArrayList<City>>() {
                     @Override
-                    public void onChanged(@Nullable ArrayList<City> cities) {
-                            favoriteViewModel.addData(mCityTextEdit.getText().toString());
+                    public void onChanged(@Nullable ArrayList<City> arrayList) {
+                        updateHud(arrayList);
                     }
                 });
                 mCityTextEdit.setText("");
@@ -78,7 +80,12 @@ public class FavoriteFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                favoriteViewModel.deleteData(chosenPosition);
+                favoriteViewModel.deleteData(chosenPosition).observe(FavoriteFragment.this, new Observer<ArrayList<City>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<City> arrayList) {
+
+                    }
+                });
             }
         });
         mCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,6 +102,8 @@ public class FavoriteFragment extends Fragment {
 
             }
         });
+
+
 
         return rootView;
     }
