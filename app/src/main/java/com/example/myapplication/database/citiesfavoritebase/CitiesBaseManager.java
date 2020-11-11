@@ -45,32 +45,18 @@ public class CitiesBaseManager {
 
 
     public void addElement(final String name, final String description, final String temperature) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
                 contentValues.put(CityBase.KEY_NAME, name);
                 contentValues.put(CityBase.KEY_DESCRIPTION, description);
                 contentValues.put(CityBase.KEY_TEMPERATURE, temperature);
-
                 sqLiteDatabase.insert(CityBase.TABLE_CITIES, null, contentValues);
-            }
-        });
-        t.start();
         fillDataToList();
     }
 
     public void deleteElement(final int position) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
                 int id = getCitiesList().get(position).getId();
                 int delCount = sqLiteDatabase.delete(CityBase.TABLE_CITIES, CityBase.KEY_ID + "= " + id, null);
                 Log.d("mLog", "delete rows count = " + delCount);
                 fillDataToList();
             }
-        });
-        t.start();
-
-    }
 
 }

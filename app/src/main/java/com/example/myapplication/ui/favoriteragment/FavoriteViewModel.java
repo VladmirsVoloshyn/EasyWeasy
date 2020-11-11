@@ -46,7 +46,6 @@ public class FavoriteViewModel extends ViewModel {
 
     public void deleteData(int chosenPosition){
         citiesBaseManager.deleteElement(chosenPosition);
-        mutableLiveData.setValue(citiesBaseManager.getCitiesList());
     }
 
     public MutableLiveData<ArrayList<City>> getMutableLiveData(){

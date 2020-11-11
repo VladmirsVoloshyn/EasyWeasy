@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ctrl.DataController;
@@ -37,10 +38,7 @@ public class FavoriteFragment extends Fragment {
     private Button deleteButton;
     private EditText mCityTextEdit;
     private int chosenPosition;
-    private ArrayList<City> arrayList;
 
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,17 +52,14 @@ public class FavoriteFragment extends Fragment {
         mCurrentDate.setText(R.string.favoriteListDesc);
         deleteButton.setVisibility(Button.INVISIBLE);
         Button addButton = rootView.findViewById(R.id.btnAdd);
-
         final FavoriteViewModel favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
-        favoriteViewModel.init(Objects.requireNonNull(getContext()));
-
-        favoriteViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<City>>() {
+        favoriteViewModel.init(getContext());
+        favoriteViewModel.getMutableLiveData().observe(this, new Observer<ArrayList<City>>() {
             @Override
             public void onChanged(@Nullable ArrayList<City> arrayList) {
                 updateHud(arrayList);
             }
         });
-
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,13 +67,11 @@ public class FavoriteFragment extends Fragment {
                 favoriteViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<City>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<City> cities) {
-                        favoriteViewModel.addData(mCityTextEdit.getText().toString());
-                        arrayList = cities;
+                            favoriteViewModel.addData(mCityTextEdit.getText().toString());
                     }
                 });
                 mCityTextEdit.setText("");
                 mCityTextEdit.setHint("city_name");
-                updateHud(arrayList);
             }
         });
 
@@ -87,7 +80,6 @@ public class FavoriteFragment extends Fragment {
             public void onClick(View v) {
                 favoriteViewModel.deleteData(chosenPosition);
             }
-
         });
         mCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,4 +105,8 @@ public class FavoriteFragment extends Fragment {
         mCityListView.setAdapter(cityAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
