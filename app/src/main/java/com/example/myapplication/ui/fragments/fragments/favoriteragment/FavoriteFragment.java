@@ -1,13 +1,10 @@
-package com.example.myapplication.ui.favoriteragment;
+package com.example.myapplication.ui.fragments.fragments.favoriteragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ctrl.DataController;
-import com.example.myapplication.ctrl.WeatherDataCallback;
-import com.example.myapplication.data.CurrentWeatherData;
-import com.example.myapplication.data.ForecastWeatherData;
-import com.example.myapplication.database.citiesfavoritebase.CitiesBaseManager;
 import com.example.myapplication.ui.customize.city.City;
 import com.example.myapplication.ui.customize.city.CityAdapter;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class FavoriteFragment extends Fragment {

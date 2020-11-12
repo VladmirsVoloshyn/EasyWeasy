@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.favoriteragment;
+package com.example.myapplication.ui.fragments.fragments.favoriteragment;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;

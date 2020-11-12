@@ -12,9 +12,9 @@ import android.view.MenuItem;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.about.AboutActivity;
-import com.example.myapplication.ui.currentfragment.CurrentFragment;
-import com.example.myapplication.ui.favoriteragment.FavoriteFragment;
-import com.example.myapplication.ui.forecastfragment.ForecastFragment;
+import com.example.myapplication.ui.fragments.fragments.currentfragment.CurrentFragment;
+import com.example.myapplication.ui.fragments.fragments.favoriteragment.FavoriteFragment;
+import com.example.myapplication.ui.fragments.fragments.forecastfragmet.ForecastFragment;
 import com.example.myapplication.ui.settings.SettingsActivity;
 
 public class WeatherActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{

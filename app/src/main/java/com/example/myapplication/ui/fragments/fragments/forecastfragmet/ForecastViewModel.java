@@ -1,9 +1,8 @@
-package com.example.myapplication.ui.forecastfragment;
+package com.example.myapplication.ui.fragments.fragments.forecastfragmet;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 import android.location.Location;
 
 import com.example.myapplication.ctrl.DataController;

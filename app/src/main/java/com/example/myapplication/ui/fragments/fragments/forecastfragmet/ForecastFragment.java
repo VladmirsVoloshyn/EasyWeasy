@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.forecastfragment;
+package com.example.myapplication.ui.fragments.fragments.forecastfragmet;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;

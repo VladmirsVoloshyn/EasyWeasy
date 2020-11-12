@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.currentfragment;
+package com.example.myapplication.ui.fragments.fragments.currentfragment;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
