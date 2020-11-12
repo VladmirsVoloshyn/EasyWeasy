@@ -2,6 +2,7 @@ package com.example.myapplication.network;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.myapplication.data.ForecastData.Main;
 import com.example.myapplication.data.CurrentData.WeatherData;
@@ -40,9 +41,12 @@ public class Requester {
                 .getWeatherByCityName(this.CityName, NetworkService.BASE_APP_ID)
                 .enqueue(new Callback<WeatherData>() {
                     @Override
-                    public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
+                    public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response)  {
                         WeatherData weatherData = response.body();
-                        callback.onResponse(weatherData);
+                            if (weatherData!=null)
+                            callback.onResponse(weatherData);
+                            else return;
+                        Log.d("Request:", "request by city name");
                     }
 
                     @Override
@@ -61,7 +65,10 @@ public class Requester {
                     @Override
                     public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                         WeatherData weatherData = response.body();
+                        if(weatherData!=null)
                         callback.onResponse(weatherData);
+                        else return;
+                        Log.d("Requester", "request by location");
                     }
 
                     @Override
@@ -79,8 +86,11 @@ public class Requester {
                 .enqueue(new Callback<Main>() {
                     @Override
                     public void onResponse(@NonNull Call<Main> call, @NonNull Response<Main> response) {
-                        Main dailyWeather = response.body();
-                        callback.onResponseBySevenDays(dailyWeather);
+                        Main forecastData = response.body();
+                        if (forecastData!=null)
+                        callback.onResponseBySevenDays(forecastData);
+                        else return;
+                        Log.d("Requester", "request by seven days");
                     }
 
                     @Override

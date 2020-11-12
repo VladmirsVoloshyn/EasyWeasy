@@ -16,9 +16,10 @@ import java.util.ArrayList;
 public class CityAdapter extends BaseAdapter {
 
     private final LayoutInflater layoutInflater;
-    private final ArrayList<City> arrayList;
+    private ArrayList<City> arrayList = new ArrayList<>();
 
     public CityAdapter(Context context, ArrayList<City> arrayListCities){
+        this.arrayList.clear();
         this.arrayList = arrayListCities;
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,7 +48,6 @@ public class CityAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.city_list_layout, parent, false);
         }
 
-        arrayList.get(position);
 
         ((TextView) view.findViewById(R.id.TextViewCity)).setText( arrayList.get(position).getCityName());
         ((TextView) view.findViewById(R.id.TextViewTemp)).setText(  arrayList.get(position).getTemp() + "");

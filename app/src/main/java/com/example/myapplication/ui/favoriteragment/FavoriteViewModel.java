@@ -25,6 +25,9 @@ public class FavoriteViewModel extends ViewModel {
     }
 
     public void updateData(final String cityName){
+        if (cityName.equals("invalid string")) {
+            return;
+        } else
         dataController = new DataController(cityName, new WeatherDataCallback() {
             @Override
             public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
@@ -52,4 +55,23 @@ public class FavoriteViewModel extends ViewModel {
         return this.mutableLiveData;
     }
 
+    public void refreshData(){
+        ArrayList<City> citiesList = citiesBaseManager.getCitiesList();
+        citiesBaseManager.clearBase();
+        for (City city: citiesList) {
+            dataController = new DataController(city.getCityName(), new WeatherDataCallback() {
+                @Override
+                public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
+                    citiesBaseManager.addElement(currentWeatherData.getCityName(),currentWeatherData.getMainDescription(), currentWeatherData.getCurrentTemp());
+                }
+
+                @Override
+                public void onForecastDataGet(ForecastWeatherData forecastWeatherData) {
+
+                }
+
+            });
+        }
+        mutableLiveData.setValue(citiesBaseManager.getCitiesList());
+    }
 }

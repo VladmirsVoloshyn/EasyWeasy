@@ -41,6 +41,7 @@ public class DataController{
                     }
                     @Override
                     public void onFailure(Throwable t) {
+                        t.printStackTrace();
                     }
                 });
             }
@@ -55,6 +56,7 @@ public class DataController{
             }
             @Override
             public void onFailure(Throwable t) {
+                t.printStackTrace();
             }
         });
     }

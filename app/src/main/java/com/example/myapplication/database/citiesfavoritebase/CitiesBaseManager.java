@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.myapplication.geolocation.LocationPreferencesBase;
 import com.example.myapplication.ui.customize.city.City;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class CitiesBaseManager {
 
 
     public void fillDataToList() {
+        citiesList.clear();
         Cursor cursor = sqLiteDatabase.query(CityBase.TABLE_CITIES, null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(CityBase.KEY_ID);
@@ -58,5 +60,7 @@ public class CitiesBaseManager {
                 Log.d("mLog", "delete rows count = " + delCount);
                 fillDataToList();
             }
-
+    public void clearBase(){
+        sqLiteDatabase.delete(CityBase.TABLE_CITIES, null, null);
+    }
 }

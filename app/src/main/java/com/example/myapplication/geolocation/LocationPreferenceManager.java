@@ -50,4 +50,5 @@ public class LocationPreferenceManager {
         cursor.close();
     }
 
+
 }
