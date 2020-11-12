@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.currentfragment;
+package com.example.myapplication.ui.fragments.fragments.currentfragment;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
@@ -18,7 +18,9 @@ import com.example.myapplication.R;
 
 public class CurrentFragment extends Fragment {
 
-    private TextView mCityName, mCurrentDate, mCurrentTemp, mMaxAndMinTemp, mWeatherDescription, mWindSpeed, mWindDestination, mPressure, mHumidity;
+    private TextView mCityName, mCurrentDate,
+            mCurrentTemp, mMaxAndMinTemp, mWeatherDescription,
+            mWindSpeed, mWindDestination, mPressure, mHumidity;
     private ImageView imageView;
 
     @Nullable
@@ -26,6 +28,7 @@ public class CurrentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View rootView =
                 inflater.inflate(R.layout.fragment_current, null);
+
         mCityName = rootView.findViewById(R.id.CityNameText);
         mCurrentDate = rootView.findViewById(R.id.CurrentDate);
         mCurrentTemp = rootView.findViewById(R.id.CurrentDegree);
@@ -37,18 +40,24 @@ public class CurrentFragment extends Fragment {
         mHumidity = rootView.findViewById(R.id.HumidityText);
         imageView = rootView.findViewById(R.id.weatherIconView);
 
-        CurrentViewModel viewModel = (CurrentViewModel) ViewModelProviders.of(this).get(CurrentViewModel.class);
+        CurrentViewModel viewModel = ViewModelProviders.of(this).get(CurrentViewModel.class);
         viewModel.setContext(getContext());
         viewModel.updateLocation();
-        viewModel.getData().observe(this, new Observer<CurrentWeatherData>() {
-            @Override
-            public void onChanged(@Nullable CurrentWeatherData currentWeatherDataConstructor) {
-                setData(currentWeatherDataConstructor);
-            }
-        });
+        viewModel.getData().observe(this,
+                new Observer<CurrentWeatherData>() {
+                    @Override
+                    public void onChanged(@Nullable CurrentWeatherData currentWeatherDataConstructor) {
+                        try {
+                            assert currentWeatherDataConstructor != null;
+                            setData(currentWeatherDataConstructor);
+                        }
+                        catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
         return rootView;
     }
-
 
     @SuppressLint("SetTextI18n")
     public void setData(CurrentWeatherData weatherDataConstructor) {
@@ -95,6 +104,7 @@ public class CurrentFragment extends Fragment {
                 mWeatherDescription.setText(R.string.Fog);
         }
     }
+
     static final class TagWEaterDescription{
         static final String CLEAR = "Clear";
         static final String RAIN = "Rain";

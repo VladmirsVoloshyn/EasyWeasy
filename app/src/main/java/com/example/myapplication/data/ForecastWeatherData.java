@@ -29,7 +29,7 @@ public class ForecastWeatherData extends MutableLiveData<ForecastWeatherData> {
         {
             this.weatherListTagArrayList.add(new WeatherListTag(DateFormat.formatToGMT(data.getDt()),
                     Math.round(DegreesFormat.formatToCelsius(data.getTemp().getDay())) + " C°",
-                    data.getWeather().get(0).getMain()));
+                    data.getWeather().get(0).getMain(),forecastData.getTimezone()));
         }
     }
 

@@ -19,7 +19,9 @@
     <string name="Degree">°</string>
     <string name="CelsiusDegree"> °С</string>
     <string name="Fog">Сильный туман</string>
-<!--    <string name="Fog">Сильный туман</string>-->
+    <string name="invalid_string">invalid string</string>
+    <string name="set_city_name_to_add_in_favorite_list">Set city name to add in favorite list</string>
+    <!--    <string name="Fog">Сильный туман</string>-->
 <!--    <string name="Fog">Сильный туман</string>-->
 <!--    <string name="Fog">Сильный туман</string>-->
 <!--    <string name="Fog">Сильный туман</string>-->

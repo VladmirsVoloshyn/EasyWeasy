@@ -10,11 +10,17 @@ public class WeatherListTag {
     private final String date;
     private final String temp;
     private final String descriptionImage;
+    private final String timeZone;
 
-    public  WeatherListTag(String date, String temp, String descriptionImage){
+    public  WeatherListTag(String date, String temp, String descriptionImage, String timeZone){
     this.date = date;
+    this.timeZone = timeZone;
     this.temp = temp;
     this.descriptionImage = descriptionImage;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
     }
 
     public String getDate() {
