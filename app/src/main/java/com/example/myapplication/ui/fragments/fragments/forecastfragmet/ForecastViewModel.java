@@ -6,8 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.location.Location;
 
 import com.example.myapplication.ctrl.DataController;
-import com.example.myapplication.ctrl.WeatherDataCallback;
-import com.example.myapplication.data.CurrentWeatherData;
+import com.example.myapplication.ctrl.ForecastDataCallback;
 import com.example.myapplication.data.ForecastWeatherData;
 import com.example.myapplication.geolocation.LocationCallback;
 import com.example.myapplication.geolocation.WeatherLocationListener;
@@ -18,16 +17,17 @@ public class ForecastViewModel extends ViewModel implements LocationCallback {
     protected DataController dataController;
 
     public void updateData(){
-        dataController = new DataController(new WeatherDataCallback() {
-            @Override
-            public void onCurrentDataGet(CurrentWeatherData currentWeatherData) {
-            }
+       dataController = new DataController(new ForecastDataCallback() {
+           @Override
+           public void onDataGet(ForecastWeatherData forecastWeatherData) {
+            forecastLiveData.postValue(forecastWeatherData);
+           }
 
-            @Override
-            public void onForecastDataGet(ForecastWeatherData forecastWeatherData) {
-                forecastLiveData.postValue(forecastWeatherData);
-            }
-        });
+           @Override
+           public void onFailure(Throwable t) {
+
+           }
+       });
     }
 
     public LiveData<ForecastWeatherData> getData(){

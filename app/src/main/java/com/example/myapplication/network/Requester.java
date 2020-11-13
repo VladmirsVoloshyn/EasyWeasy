@@ -16,22 +16,30 @@ public class Requester {
     private String CityName;
     private double latitude;
     private double longitude;
-    private final RequesterCallback callback;
+    private RequesterCurrentDataCallback currentCallback;
+    private RequesterForecastDataCallback forecastDataCallback;
+    private RequesterDataByCityName dataByCityName;
 
-    public Requester(String cityName, RequesterCallback callback) {
-        this.callback = callback;
-        this.CityName = cityName;
-        this.requestWeatherByCityName();
+    public Requester(double latitude, double longitude, RequesterCurrentDataCallback callback){
+        this.currentCallback = callback;
+        this.latitude = latitude;
+        this.longitude =  longitude;
+
+        this.requestCurrentWeatherData();
+    }
+    public Requester(double latitude, double longitude, RequesterForecastDataCallback callback){
+        this.forecastDataCallback = callback;
+        this.latitude = latitude;
+        this.longitude =  longitude;
+
+        this.requestForecastWeatherData();
     }
 
-    public Requester(double latitude, double longitude, RequesterCallback callback) {
+    public Requester(String cityName, RequesterDataByCityName callback) {
+        this.dataByCityName = callback;
+        this.CityName = cityName;
 
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.callback = callback;
-
-        this.requestWeatherByLocation();
-        this.requestWeatherBySevenDays();
+        this.requestWeatherByCityName();
     }
 
 
@@ -44,7 +52,7 @@ public class Requester {
                     public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response)  {
                         WeatherData weatherData = response.body();
                             if (weatherData!=null)
-                            callback.onResponse(weatherData);
+                            dataByCityName.onResponse(weatherData);
                             else return;
                         Log.d("Request:", "request by city name");
                     }
@@ -52,12 +60,12 @@ public class Requester {
                     @Override
                     public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                         t.printStackTrace();
-                        callback.onFailure(t);
+                        dataByCityName.onFailure(t);
                     }
                 });
     }
 
-    public void requestWeatherByLocation() {
+    public void requestCurrentWeatherData() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getWeatherByLocation(this.latitude, this.longitude, NetworkService.BASE_APP_ID)
@@ -65,8 +73,9 @@ public class Requester {
                     @Override
                     public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                         WeatherData weatherData = response.body();
-                        if(weatherData!=null)
-                        callback.onResponse(weatherData);
+                        if(weatherData!=null) {
+                            currentCallback.onResponse(weatherData);
+                        }
                         else return;
                         Log.d("Requester", "request by location");
                     }
@@ -74,12 +83,12 @@ public class Requester {
                     @Override
                     public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                         t.printStackTrace();
-                        callback.onFailure(t);
+                        currentCallback.onFailure(t);
                     }
                 });
     }
 
-    public void requestWeatherBySevenDays() {
+    public void requestForecastWeatherData() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getWeatherBySevenDays(this.latitude, this.longitude, NetworkService.EXCLUDING_PARAMETERS, NetworkService.BASE_APP_ID)
@@ -87,8 +96,8 @@ public class Requester {
                     @Override
                     public void onResponse(@NonNull Call<Main> call, @NonNull Response<Main> response) {
                         Main forecastData = response.body();
-                        if (forecastData!=null)
-                        callback.onResponseBySevenDays(forecastData);
+                        if (forecastData!=null){
+                        forecastDataCallback.onResponse(forecastData);}
                         else return;
                         Log.d("Requester", "request by seven days");
                     }
@@ -96,7 +105,7 @@ public class Requester {
                     @Override
                     public void onFailure(@NonNull Call<Main> call, @NonNull Throwable t) {
                         t.printStackTrace();
-                        callback.onFailure(t);
+                        forecastDataCallback.onFailure(t);
                     }
                 });
 
